@@ -8,6 +8,10 @@ import { wagmiConfig } from '@/lib/wagmiConfig';
 import Index from "./pages/Index";
 import AIChatPage from "./pages/AIChatPage";
 import HealthSearchPage from "./pages/HealthSearchPage";
+import ProfilePage from "./pages/ProfilePage";
+import DashboardPage from "./pages/DashboardPage";
+import ActivityHistoryPage from "./pages/ActivityHistoryPage";
+import VitalSignsPage from "./pages/VitalSignsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +27,10 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/ai-chat" element={<AIChatPage />} />
             <Route path="/health-library" element={<HealthSearchPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/activity-history" element={<ActivityHistoryPage />} />
+            <Route path="/vital-signs" element={<VitalSignsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

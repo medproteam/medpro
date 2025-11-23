@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_logs: {
+        Row: {
+          activity_data: Json
+          activity_type: string
+          created_at: string
+          id: string
+          user_address: string
+        }
+        Insert: {
+          activity_data: Json
+          activity_type: string
+          created_at?: string
+          id?: string
+          user_address: string
+        }
+        Update: {
+          activity_data?: Json
+          activity_type?: string
+          created_at?: string
+          id?: string
+          user_address?: string
+        }
+        Relationships: []
+      }
       health_records: {
         Row: {
           created_at: string
@@ -126,6 +150,99 @@ export type Database = {
           start_date?: string
           time_of_day?: string
           updated_at?: string
+          user_address?: string
+        }
+        Relationships: []
+      }
+      user_profiles: {
+        Row: {
+          allergies: string[] | null
+          blood_type: string | null
+          chronic_conditions: string[] | null
+          created_at: string
+          date_of_birth: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          full_name: string | null
+          height_cm: number | null
+          id: string
+          medical_history: string[] | null
+          updated_at: string
+          wallet_address: string
+          weight_kg: number | null
+        }
+        Insert: {
+          allergies?: string[] | null
+          blood_type?: string | null
+          chronic_conditions?: string[] | null
+          created_at?: string
+          date_of_birth?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          full_name?: string | null
+          height_cm?: number | null
+          id?: string
+          medical_history?: string[] | null
+          updated_at?: string
+          wallet_address: string
+          weight_kg?: number | null
+        }
+        Update: {
+          allergies?: string[] | null
+          blood_type?: string | null
+          chronic_conditions?: string[] | null
+          created_at?: string
+          date_of_birth?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          full_name?: string | null
+          height_cm?: number | null
+          id?: string
+          medical_history?: string[] | null
+          updated_at?: string
+          wallet_address?: string
+          weight_kg?: number | null
+        }
+        Relationships: []
+      }
+      vital_signs: {
+        Row: {
+          blood_pressure_diastolic: number | null
+          blood_pressure_systolic: number | null
+          blood_sugar_mg_dl: number | null
+          created_at: string
+          heart_rate: number | null
+          id: string
+          notes: string | null
+          oxygen_saturation: number | null
+          recorded_at: string
+          temperature_celsius: number | null
+          user_address: string
+        }
+        Insert: {
+          blood_pressure_diastolic?: number | null
+          blood_pressure_systolic?: number | null
+          blood_sugar_mg_dl?: number | null
+          created_at?: string
+          heart_rate?: number | null
+          id?: string
+          notes?: string | null
+          oxygen_saturation?: number | null
+          recorded_at?: string
+          temperature_celsius?: number | null
+          user_address: string
+        }
+        Update: {
+          blood_pressure_diastolic?: number | null
+          blood_pressure_systolic?: number | null
+          blood_sugar_mg_dl?: number | null
+          created_at?: string
+          heart_rate?: number | null
+          id?: string
+          notes?: string | null
+          oxygen_saturation?: number | null
+          recorded_at?: string
+          temperature_celsius?: number | null
           user_address?: string
         }
         Relationships: []
