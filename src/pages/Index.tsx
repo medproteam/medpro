@@ -1,153 +1,105 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import medproLogo from '@/assets/medpro-logo.jpg';
-import { Heart, Shield, Users } from 'lucide-react';
+import medproLogo from '@/assets/medpro-logo-clean.jpg';
 
 const Index = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     document.title = 'Welcome | MEDPRO';
+    // Show splash screen for 2 seconds
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
   }, []);
 
-  const healthImages = [
-    { icon: Heart, label: 'Health Monitoring', color: 'text-medical-cyan' },
-    { icon: Shield, label: 'Secure & Private', color: 'text-medical-blue' },
-    { icon: Users, label: 'Community Care', color: 'text-medical-green' }
-  ];
+  // Splash Screen
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <img 
+            src={medproLogo} 
+            alt="MEDPRO" 
+            className="w-48 h-48 mx-auto mb-6 object-contain"
+          />
+          <h1 className="text-4xl font-bold text-medical-cyan">MEDPRO</h1>
+          <p className="text-muted-foreground mt-2">Your Health Companion</p>
+          
+          {/* Loading indicator */}
+          <div className="mt-8 flex justify-center">
+            <div className="w-48 h-1 bg-muted rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-medical-cyan"
+                initial={{ width: 0 }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 2 }}
+              />
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-medical-cyan/10 via-background to-medical-blue/10">
-      {/* Hero Section with Slides */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-medical-cyan/20 to-medical-blue/20 backdrop-blur-sm" />
-        
-        {/* Animated Health Icons Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          {healthImages.map((item, i) => (
-            <motion.div
-              key={i}
-              className="absolute"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ 
-                opacity: [0.1, 0.3, 0.1],
-                scale: [1, 1.2, 1],
-                x: [0, 50, 0],
-                y: [0, 30, 0]
-              }}
-              transition={{ 
-                duration: 8,
-                repeat: Infinity,
-                delay: i * 2
-              }}
-              style={{
-                left: `${20 + i * 30}%`,
-                top: `${10 + i * 20}%`
-              }}
-            >
-              <item.icon className={`w-32 h-32 ${item.color} opacity-20`} />
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Main Content */}
-        <div className="relative z-10 container mx-auto px-4 py-12 min-h-screen flex items-center justify-center">
-          <div className="grid md:grid-cols-2 gap-8 items-center max-w-6xl w-full">
-            {/* Left: Info & CTA */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="space-y-6"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <img src={medproLogo} alt="MEDPRO" className="h-16 w-auto rounded-2xl shadow-lg object-contain" />
-                <div>
-                  <h1 className="text-4xl md:text-5xl font-bold text-medical-blue">MEDPRO</h1>
-                  <p className="text-sm text-medical-cyan">AI-Powered Health Companion</p>
-                </div>
-              </div>
-
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground leading-tight">
-                Your Health, <span className="text-medical-cyan">Secured</span> on <span className="text-medical-blue">Web3</span>
-              </h2>
-              
-              <p className="text-lg text-muted-foreground">
-                Connect your wallet to access personalized health insights, AI-powered diagnostics, medication tracking, and vital signs monitoring—all secured on the blockchain.
-              </p>
-
-              <div className="space-y-3">
-                <Button
-                  className="w-full md:w-auto bg-medical-cyan text-white hover:bg-medical-cyan/90 shadow-lg"
-                  size="lg"
-                  onClick={() => navigate('/profile')}
-                >
-                  Sign Up with Wallet
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full md:w-auto border-medical-blue text-medical-blue hover:bg-medical-blue/10"
-                  size="lg"
-                  onClick={() => navigate('/login')}
-                >
-                  Log In with Wallet
-                </Button>
-              </div>
-
-              <p className="text-xs text-muted-foreground">
-                MEDPRO provides educational health guidance only and is not a substitute for professional medical advice, diagnosis, or treatment.
-              </p>
-            </motion.div>
-
-            {/* Right: Feature Cards Carousel */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-4"
-            >
-              {healthImages.map((feature, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + i * 0.1 }}
-                >
-                  <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50 hover:shadow-xl transition-shadow">
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-full bg-gradient-to-br from-medical-cyan/20 to-medical-blue/20 flex items-center justify-center`}>
-                        <feature.icon className={`w-6 h-6 ${feature.color}`} />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground">{feature.label}</h3>
-                        <p className="text-sm text-muted-foreground">Powered by Web3 & AI</p>
-                      </div>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Header */}
+      <header className="bg-card border-b border-border p-4">
+        <div className="container mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src={medproLogo} alt="MEDPRO" className="h-10 w-10 object-contain" />
+            <span className="text-xl font-bold">MEDPRO</span>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Africa Health Initiative Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="bg-gradient-to-r from-medical-cyan/5 to-medical-blue/5 py-12"
-      >
-        <div className="container mx-auto px-4 text-center">
-          <h3 className="text-2xl font-bold text-medical-blue mb-3">Built for Africa Builder Program Hackathon</h3>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Empowering communities with accessible, blockchain-secured healthcare solutions across Africa
+      {/* Main Content */}
+      <main className="flex-1 flex items-center justify-center px-4 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-md text-center space-y-8"
+        >
+          <div>
+            <h1 className="text-3xl font-bold mb-3">Welcome to MEDPRO</h1>
+            <p className="text-muted-foreground">
+              Your AI-Powered Health Companion on Web3
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <Button
+              onClick={() => navigate('/signup')}
+              className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white text-lg rounded-xl"
+            >
+              Sign up
+            </Button>
+            
+            <Button
+              onClick={() => navigate('/login')}
+              variant="outline"
+              className="w-full h-14 border-2 text-lg rounded-xl"
+            >
+              Log in
+            </Button>
+          </div>
+
+          <p className="text-xs text-muted-foreground mt-8">
+            MEDPRO provides educational health guidance only and is not a substitute for professional medical advice, diagnosis, or treatment.
           </p>
-        </div>
-      </motion.div>
+        </motion.div>
+      </main>
     </div>
   );
 };

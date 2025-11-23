@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import { BottomNav } from '@/components/BottomNav';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
@@ -70,7 +70,7 @@ export default function DashboardPage() {
   };
 
   const quickActions = [
-    { icon: Pill, label: 'Log Medication', href: '/dashboard', color: 'from-primary to-primary/70' },
+    { icon: Pill, label: 'Medications', href: '/medications', color: 'from-primary to-primary/70' },
     { icon: Activity, label: 'Record Vitals', href: '/vital-signs', color: 'from-secondary to-secondary/70' },
     { icon: FileText, label: 'AI Chat', href: '/ai-chat', color: 'from-accent to-accent/70' },
     { icon: Heart, label: 'Health Library', href: '/health-library', color: 'from-medical-orange to-medical-orange/70' },
@@ -84,7 +84,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen bg-background pb-20">
       <Header />
       <main className="container px-4 py-12 mx-auto">
         <motion.div
@@ -207,7 +207,7 @@ export default function DashboardPage() {
           </div>
         </motion.div>
       </main>
-      <Footer />
+      <BottomNav />
     </div>
   );
 }
