@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { MessageSquare, Send, Bot, User, Sparkles, Volume2 } from 'lucide-react';
+import { MessageSquare, Send, Bot, User, Sparkles, Volume2, Paperclip, X, FileText, Image as ImageIcon } from 'lucide-react';
 import { useAccount } from 'wagmi';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
@@ -40,25 +40,60 @@ export function AIChat() {
   const [isLoading, setIsLoading] = useState(false);
   const [useOpenAI, setUseOpenAI] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [attachedFile, setAttachedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'application/pdf', 'text/plain'];
+      if (!validTypes.includes(file.type)) {
+        toast.error('Please upload an image (PNG, JPEG, WEBP) or document (PDF, TXT)');
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error('File size must be less than 10MB');
+        return;
+      }
+      setAttachedFile(file);
+      toast.success(`File "${file.name}" attached`);
+    }
+  };
 
   const handleSend = async () => {
-    if (!input.trim() || !isConnected) {
+    if ((!input.trim() && !attachedFile) || !isConnected) {
       if (!isConnected) {
         toast.error('Please connect your wallet to use AI chat');
       }
       return;
     }
 
+    let userContent = input;
+    
+    // If file attached, convert to base64 and add to message
+    if (attachedFile) {
+      const reader = new FileReader();
+      reader.readAsDataURL(attachedFile);
+      await new Promise((resolve) => {
+        reader.onloadend = () => {
+          const base64 = reader.result as string;
+          userContent += `\n[Attached file: ${attachedFile.name}]\n[File data: ${base64}]`;
+          resolve(null);
+        };
+      });
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
-      content: input,
+      content: userContent,
       timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
     const currentInput = input;
     setInput('');
+    setAttachedFile(null);
     setIsLoading(true);
 
     try {
@@ -249,7 +284,41 @@ export function AIChat() {
 
             {/* Input */}
             <div className="border-t border-border/50 p-4 bg-muted/30">
+              {attachedFile && (
+                <div className="mb-2 flex items-center gap-2 p-2 bg-muted rounded-lg">
+                  {attachedFile.type.startsWith('image/') ? (
+                    <ImageIcon className="w-4 h-4 text-medical-cyan" />
+                  ) : (
+                    <FileText className="w-4 h-4 text-medical-blue" />
+                  )}
+                  <span className="text-sm flex-1 truncate">{attachedFile.name}</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6"
+                    onClick={() => setAttachedFile(null)}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              )}
               <div className="flex gap-2">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*,.pdf,.txt"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={!isConnected}
+                  title="Attach file (image or document)"
+                >
+                  <Paperclip className="w-4 h-4" />
+                </Button>
                 <Textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -266,7 +335,7 @@ export function AIChat() {
                 <VoiceAssistant onTranscript={handleVoiceTranscript} />
                 <Button
                   onClick={handleSend}
-                  disabled={!input.trim() || isLoading || !isConnected}
+                  disabled={(!input.trim() && !attachedFile) || isLoading || !isConnected}
                   className="bg-gradient-to-r from-primary to-secondary hover:shadow-lg hover:shadow-primary/30"
                 >
                   <Send className="w-4 h-4" />
