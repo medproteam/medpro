@@ -1,0 +1,109 @@
+import { motion } from 'framer-motion';
+import { Brain, MessageSquare, FileText, Clock, LineChart, Pill, Bell, Shield } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+
+const features = [
+  {
+    icon: Brain,
+    title: 'AI Health Assistant',
+    description: 'Conversational AI that understands your health needs and provides personalized guidance 24/7',
+    color: 'from-primary to-primary/70',
+  },
+  {
+    icon: FileText,
+    title: 'Test Result Interpretation',
+    description: 'AI-powered analysis of medical tests with clear, easy-to-understand explanations',
+    color: 'from-secondary to-secondary/70',
+  },
+  {
+    icon: Pill,
+    title: 'Medication Tracking',
+    description: 'Never miss a dose with intelligent reminders and adherence monitoring',
+    color: 'from-accent to-accent/70',
+  },
+  {
+    icon: LineChart,
+    title: 'Health Analytics',
+    description: 'Visualize your health trends and progress over time with detailed insights',
+    color: 'from-medical-purple to-medical-purple/70',
+  },
+  {
+    icon: Bell,
+    title: 'Smart Reminders',
+    description: 'SMS and push notifications to keep you on track with your treatment plan',
+    color: 'from-primary to-secondary',
+  },
+  {
+    icon: Shield,
+    title: 'Blockchain Security',
+    description: 'Your health data is encrypted and secured on Camp Network blockchain',
+    color: 'from-secondary to-accent',
+  },
+  {
+    icon: MessageSquare,
+    title: 'Voice Interactions',
+    description: 'Communicate with MEDPRO using voice for hands-free health management',
+    color: 'from-accent to-primary',
+  },
+  {
+    icon: Clock,
+    title: 'Activity History',
+    description: 'Complete timeline of your health activities, medications, and checkups',
+    color: 'from-medical-purple to-primary',
+  },
+];
+
+export function Features() {
+  return (
+    <section id="features" className="py-24 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/20 to-background" />
+      
+      <div className="container relative z-10 px-4 mx-auto">
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Powerful Features
+              </span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Everything you need to take control of your health journey
+            </p>
+          </motion.div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+            >
+              <Card className="group relative p-6 h-full border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 bg-card/50 backdrop-blur-sm">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <div className="relative space-y-4">
+                  <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.color}`}>
+                    <feature.icon className="w-6 h-6 text-white" />
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
