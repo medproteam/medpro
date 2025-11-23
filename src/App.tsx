@@ -6,6 +6,8 @@ import { WagmiProvider } from 'wagmi';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { wagmiConfig } from '@/lib/wagmiConfig';
 import Index from "./pages/Index";
+import AIChatPage from "./pages/AIChatPage";
+import HealthSearchPage from "./pages/HealthSearchPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -19,6 +21,8 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/ai-chat" element={<AIChatPage />} />
+            <Route path="/health-library" element={<HealthSearchPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

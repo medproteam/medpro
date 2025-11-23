@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Activity } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { WalletConnect } from './WalletConnect';
-
 export function Header() {
   return (
     <motion.header
@@ -19,12 +19,30 @@ export function Header() {
         </div>
 
         <nav className="hidden md:flex items-center gap-6">
-          <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+          <Link
+            to="/"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
+            Home
+          </Link>
+          <a
+            href="#features"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
             Features
           </a>
-          <a href="#about" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            About
-          </a>
+          <Link
+            to="/ai-chat"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
+            AI Chat
+          </Link>
+          <Link
+            to="/health-library"
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
+            Health Library
+          </Link>
           <a 
             href="https://docs.campnetwork.xyz" 
             target="_blank" 

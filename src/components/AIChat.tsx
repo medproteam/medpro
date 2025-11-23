@@ -149,7 +149,7 @@ export function AIChat() {
             </span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Powered by {useOpenAI ? 'OpenAI GPT-5' : 'Google Gemini 2.5'} • Voice enabled
+            Smart AI health assistant • Voice enabled
           </p>
           <Button
             variant="outline"
@@ -158,7 +158,7 @@ export function AIChat() {
             className="mt-4 gap-2"
           >
             <Sparkles className="w-4 h-4" />
-            Switch to {useOpenAI ? 'Gemini' : 'OpenAI'}
+            Switch AI mode
           </Button>
         </motion.div>
 
