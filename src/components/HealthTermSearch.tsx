@@ -12,6 +12,15 @@ export function HealthTermSearch() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
 
+  const formatAiText = (text: string) => {
+    return text
+      .replace(/^#{1,6}\s*/gm, '')
+      .replace(/^[-*+]\s+/gm, '')
+      .replace(/^>\s+/gm, '')
+      .replace(/`/g, '')
+      .trim();
+  };
+
   const handleSearch = async () => {
     if (!term.trim()) return;
 
@@ -41,7 +50,8 @@ export function HealthTermSearch() {
       if (!data?.response) {
         setResult('No information available right now. Please try another term.');
       } else {
-        setResult(data.response as string);
+        const cleaned = formatAiText(data.response as string);
+        setResult(cleaned);
       }
     } catch (error: any) {
       console.error('Health term search error:', error);
