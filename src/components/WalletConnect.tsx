@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 
 export function WalletConnect() {
   const { address, isConnected, chain } = useAccount();
-  const { connect, connectors, isPending } = useConnect();
+  const { connectAsync, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
   const [showDialog, setShowDialog] = useState(false);
@@ -63,22 +63,33 @@ export function WalletConnect() {
   };
 
   const handleConnect = async (connector: any) => {
+    // If connector isn't ready (no wallet injected), show helpful message
+    if (!connector.ready) {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        toast.error('No wallet detected. Please open MEDPRO inside your wallet app browser (MetaMask, Trust Wallet, etc.).');
+      } else {
+        toast.error('No browser wallet detected. Please install MetaMask, Rabby, or another EVM wallet extension.');
+      }
+      return;
+    }
+
     try {
-      await connect({ connector });
+      await connectAsync({ connector });
       setShowDialog(false);
       toast.success('Wallet connected successfully!');
     } catch (error: any) {
       console.error('Connection error:', error);
       
       // If user rejected, show friendly message
-      if (error.message?.includes('User rejected') || error.message?.includes('rejected')) {
+      if (error?.message?.includes('User rejected') || error?.message?.includes('rejected')) {
         toast.error('Connection cancelled');
         return;
       }
       
       // If no wallet found on mobile, guide user
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile && (error.message?.includes('No provider') || !window.ethereum)) {
+      if (isMobile && (error?.message?.includes('No provider') || !window.ethereum)) {
         toast.error('Please open this app in your wallet browser (MetaMask, Trust Wallet, etc.)');
         return;
       }
