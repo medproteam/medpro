@@ -14,7 +14,122 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      health_records: {
+        Row: {
+          created_at: string
+          data: Json
+          id: string
+          interpretation: string | null
+          record_type: string
+          recorded_at: string
+          title: string
+          user_address: string
+        }
+        Insert: {
+          created_at?: string
+          data: Json
+          id?: string
+          interpretation?: string | null
+          record_type: string
+          recorded_at?: string
+          title: string
+          user_address: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          id?: string
+          interpretation?: string | null
+          record_type?: string
+          recorded_at?: string
+          title?: string
+          user_address?: string
+        }
+        Relationships: []
+      }
+      medication_logs: {
+        Row: {
+          created_at: string
+          id: string
+          medication_id: string
+          notes: string | null
+          status: string
+          taken_at: string
+          user_address: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          medication_id: string
+          notes?: string | null
+          status: string
+          taken_at?: string
+          user_address: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          medication_id?: string
+          notes?: string | null
+          status?: string
+          taken_at?: string
+          user_address?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_logs_medication_id_fkey"
+            columns: ["medication_id"]
+            isOneToOne: false
+            referencedRelation: "medications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medications: {
+        Row: {
+          active: boolean
+          created_at: string
+          dosage: string
+          end_date: string | null
+          frequency: string
+          id: string
+          name: string
+          notes: string | null
+          start_date: string
+          time_of_day: string
+          updated_at: string
+          user_address: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          dosage: string
+          end_date?: string | null
+          frequency: string
+          id?: string
+          name: string
+          notes?: string | null
+          start_date?: string
+          time_of_day: string
+          updated_at?: string
+          user_address: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          dosage?: string
+          end_date?: string | null
+          frequency?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          start_date?: string
+          time_of_day?: string
+          updated_at?: string
+          user_address?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
