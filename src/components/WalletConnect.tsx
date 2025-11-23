@@ -64,26 +64,25 @@ export function WalletConnect() {
 
   const handleConnect = async (connector: any) => {
     try {
-      // Check if mobile and no wallet installed
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      
-      if (isMobile && !window.ethereum) {
-        // Redirect to Play Store/App Store
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-        const storeUrl = isIOS 
-          ? 'https://apps.apple.com/app/metamask/id1438144202'
-          : 'https://play.google.com/store/apps/details?id=io.metamask';
-        
-        window.open(storeUrl, '_blank');
-        toast.info('Please install a Web3 wallet to continue');
-        return;
-      }
-
       await connect({ connector });
       setShowDialog(false);
       toast.success('Wallet connected successfully!');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Connection error:', error);
+      
+      // If user rejected, show friendly message
+      if (error.message?.includes('User rejected') || error.message?.includes('rejected')) {
+        toast.error('Connection cancelled');
+        return;
+      }
+      
+      // If no wallet found on mobile, guide user
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile && (error.message?.includes('No provider') || !window.ethereum)) {
+        toast.error('Please open this app in your wallet browser (MetaMask, Trust Wallet, etc.)');
+        return;
+      }
+      
       toast.error('Failed to connect wallet');
     }
   };
@@ -168,10 +167,17 @@ export function WalletConnect() {
             ))}
           </div>
 
-          <div className="mt-6 p-4 bg-muted rounded-lg">
-            <p className="text-xs text-muted-foreground text-center">
-              By connecting, you agree to MEDPRO's Terms of Service and Privacy Policy
-            </p>
+          <div className="mt-6 space-y-3">
+            <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg">
+              <p className="text-xs text-muted-foreground text-center">
+                📱 <strong>Mobile users:</strong> Open this page in your wallet's browser (MetaMask, Trust Wallet, Binance, etc.) for best experience
+              </p>
+            </div>
+            <div className="p-4 bg-muted rounded-lg">
+              <p className="text-xs text-muted-foreground text-center">
+                By connecting, you agree to MEDPRO's Terms of Service and Privacy Policy
+              </p>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
