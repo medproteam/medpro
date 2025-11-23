@@ -63,17 +63,6 @@ export function WalletConnect() {
   };
 
   const handleConnect = async (connector: any) => {
-    // If connector isn't ready (no wallet injected), show helpful message
-    if (!connector.ready) {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile) {
-        toast.error('No wallet detected. Please open MEDPRO inside your wallet app browser (MetaMask, Trust Wallet, etc.).');
-      } else {
-        toast.error('No browser wallet detected. Please install MetaMask, Rabby, or another EVM wallet extension.');
-      }
-      return;
-    }
-
     try {
       await connectAsync({ connector });
       setShowDialog(false);
@@ -87,9 +76,18 @@ export function WalletConnect() {
         return;
       }
       
-      // If no wallet found on mobile, guide user
+      // If no wallet found, guide user based on device
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile && (error?.message?.includes('No provider') || !window.ethereum)) {
+      if (error?.message?.includes('No provider') || error?.message?.includes('ConnectorNotFound')) {
+        if (isMobile) {
+          toast.error('No wallet detected. Please open MEDPRO inside your wallet app browser (MetaMask, Trust Wallet, etc.).');
+        } else {
+          toast.error('No browser wallet detected. Please install MetaMask, Rabby, or another EVM wallet extension.');
+        }
+        return;
+      }
+      
+      if (isMobile && (typeof window !== 'undefined' && !window.ethereum)) {
         toast.error('Please open this app in your wallet browser (MetaMask, Trust Wallet, etc.)');
         return;
       }

@@ -16,13 +16,23 @@ interface Message {
   timestamp: Date;
 }
 
+const formatAiText = (text: string) => {
+  return text
+    .replace(/^#{1,6}\s*/gm, '')
+    .replace(/^[-*+]\s+/gm, '')
+    .replace(/^>\s+/gm, '')
+    .replace(/`/g, '')
+    .trim();
+};
+
 export function AIChat() {
   const { isConnected } = useAccount();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       role: 'assistant',
-      content: "Hello! I'm your MEDPRO AI assistant powered by both Gemini and OpenAI. I can help you with medication reminders, interpret test results, and answer health-related questions. How can I assist you today?",
+      content:
+        "Hello! I'm your MEDPRO AI assistant. I can help you with medication reminders, interpret test results, and answer health-related questions. How can I assist you today?",
       timestamp: new Date(),
     },
   ]);
@@ -54,13 +64,13 @@ export function AIChat() {
     try {
       // Call AI health chat function
       const { data, error } = await supabase.functions.invoke('ai-health-chat', {
-        body: { 
-          messages: [...messages, userMessage].map(m => ({
+        body: {
+          messages: [...messages, userMessage].map((m) => ({
             role: m.role,
-            content: m.content
+            content: m.content,
           })),
-          useOpenAI 
-        }
+          useOpenAI,
+        },
       });
 
       if (error) {
@@ -68,17 +78,20 @@ export function AIChat() {
         throw new Error(error.message || 'Failed to get AI response');
       }
 
+      const rawResponse = data.response as string;
+      const cleanedResponse = formatAiText(rawResponse);
+
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: data.response,
+        content: cleanedResponse,
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, aiResponse]);
 
       // Speak the response
-      speakText(data.response);
+      speakText(cleanedResponse);
     } catch (error: any) {
       console.error('Error getting AI response:', error);
       toast.error(error.message || 'Failed to get AI response');

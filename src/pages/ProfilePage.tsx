@@ -31,11 +31,7 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    if (!isConnected) {
-      toast.error('Please connect your wallet first');
-      navigate('/');
-      return;
-    }
+    if (!isConnected || !address) return;
     loadProfile();
   }, [isConnected, address]);
 
@@ -111,7 +107,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen bg-gradient-to-b from-medical-cyan/10 via-background to-medical-blue/10">
       <Header />
       <main className="container px-4 py-12 mx-auto max-w-4xl">
         <motion.div
@@ -119,13 +115,18 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="mb-8 text-center">
-            <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Your Health Profile
-            </h1>
-            <p className="text-muted-foreground">
-              Complete your medical profile for personalized health insights
-            </p>
+          <div className="mb-8 text-center space-y-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-medical-cyan/15 mx-auto">
+              <Activity className="w-8 h-8 text-medical-cyan" />
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold mb-1 text-medical-blue">
+                Create your MEDPRO profile
+              </h1>
+              <p className="text-sm md:text-base text-muted-foreground">
+                Add your key medical details so MEDPRO can personalize its recommendations.
+              </p>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
