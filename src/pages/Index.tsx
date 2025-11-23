@@ -64,7 +64,7 @@ const Index = () => {
               className="space-y-6"
             >
               <div className="flex items-center gap-4 mb-6">
-                <img src={medproLogo} alt="MEDPRO" className="w-20 h-20 rounded-2xl shadow-lg" />
+                <img src={medproLogo} alt="MEDPRO" className="h-16 w-auto rounded-2xl shadow-lg object-contain" />
                 <div>
                   <h1 className="text-4xl md:text-5xl font-bold text-medical-blue">MEDPRO</h1>
                   <p className="text-sm text-medical-cyan">AI-Powered Health Companion</p>
@@ -91,7 +91,7 @@ const Index = () => {
                   variant="outline"
                   className="w-full md:w-auto border-medical-blue text-medical-blue hover:bg-medical-blue/10"
                   size="lg"
-                  onClick={() => navigate('/profile')}
+                  onClick={() => navigate('/login')}
                 >
                   Log In with Wallet
                 </Button>

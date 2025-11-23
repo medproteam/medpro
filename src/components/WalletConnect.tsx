@@ -8,7 +8,11 @@ import { campTestnet } from '@/config/campNetwork';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 
-export function WalletConnect() {
+interface WalletConnectProps {
+  autoOpenOnMount?: boolean;
+}
+
+export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
   const { address, isConnected, chain } = useAccount();
   const { connectAsync, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
@@ -16,6 +20,11 @@ export function WalletConnect() {
   const [showDialog, setShowDialog] = useState(false);
   const [isAddingNetwork, setIsAddingNetwork] = useState(false);
 
+  useEffect(() => {
+    if (autoOpenOnMount && !isConnected) {
+      setShowDialog(true);
+    }
+  }, [autoOpenOnMount, isConnected]);
   // Auto-switch to Camp Network if connected to wrong chain
   useEffect(() => {
     if (isConnected && chain?.id !== campTestnet.id && switchChain) {
