@@ -3,9 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { MessageSquare, Send, Bot, User, Sparkles } from 'lucide-react';
+import { MessageSquare, Send, Bot, User, Sparkles, Volume2 } from 'lucide-react';
 import { useAccount } from 'wagmi';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
+import { VoiceAssistant } from './VoiceAssistant';
 
 interface Message {
   id: string;
@@ -20,12 +22,14 @@ export function AIChat() {
     {
       id: '1',
       role: 'assistant',
-      content: "Hello! I'm your MEDPRO AI assistant. I can help you with medication reminders, interpret test results, and answer health-related questions. How can I assist you today?",
+      content: "Hello! I'm your MEDPRO AI assistant powered by both Gemini and OpenAI. I can help you with medication reminders, interpret test results, and answer health-related questions. How can I assist you today?",
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [useOpenAI, setUseOpenAI] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const handleSend = async () => {
     if (!input.trim() || !isConnected) {
@@ -43,42 +47,84 @@ export function AIChat() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
     setIsLoading(true);
 
-    // Simulate AI response (in production, this would call Lovable AI or your AI service)
-    setTimeout(() => {
+    try {
+      // Call AI health chat function
+      const { data, error } = await supabase.functions.invoke('ai-health-chat', {
+        body: { 
+          messages: [...messages, userMessage].map(m => ({
+            role: m.role,
+            content: m.content
+          })),
+          useOpenAI 
+        }
+      });
+
+      if (error) {
+        console.error('Function error:', error);
+        throw new Error(error.message || 'Failed to get AI response');
+      }
+
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: generateAIResponse(input),
+        content: data.response,
         timestamp: new Date(),
       };
+
       setMessages((prev) => [...prev, aiResponse]);
+
+      // Speak the response
+      speakText(data.response);
+    } catch (error: any) {
+      console.error('Error getting AI response:', error);
+      toast.error(error.message || 'Failed to get AI response');
+      
+      // Remove user message if error
+      setMessages(prev => prev.filter(m => m.id !== userMessage.id));
+      setInput(currentInput);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
-  const generateAIResponse = (query: string): string => {
-    const lowerQuery = query.toLowerCase();
-    
-    if (lowerQuery.includes('medication') || lowerQuery.includes('pill') || lowerQuery.includes('medicine')) {
-      return "I can help you track your medications! To set up reminders, tell me: 1) Medication name, 2) Dosage, 3) Frequency (e.g., twice daily), and 4) Time(s) to take it. Your medication schedule will be securely stored on the blockchain.";
+  const speakText = async (text: string) => {
+    setIsSpeaking(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('text-to-speech', {
+        body: { text: text.slice(0, 500), voice: 'nova' } // Limit to 500 chars for speech
+      });
+
+      if (error) throw error;
+
+      if (data?.audioContent) {
+        const audioData = atob(data.audioContent);
+        const audioArray = new Uint8Array(audioData.length);
+        for (let i = 0; i < audioData.length; i++) {
+          audioArray[i] = audioData.charCodeAt(i);
+        }
+        const audioBlob = new Blob([audioArray], { type: 'audio/mp3' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        
+        audio.onended = () => {
+          setIsSpeaking(false);
+          URL.revokeObjectURL(audioUrl);
+        };
+        
+        audio.play();
+      }
+    } catch (error: any) {
+      console.error('Error with text-to-speech:', error);
+      setIsSpeaking(false);
     }
-    
-    if (lowerQuery.includes('test') || lowerQuery.includes('result') || lowerQuery.includes('lab')) {
-      return "I can help interpret your test results. Please share your test results (blood work, imaging, etc.), and I'll provide a clear explanation of what the values mean and any recommendations. Remember, this doesn't replace professional medical advice.";
-    }
-    
-    if (lowerQuery.includes('symptom') || lowerQuery.includes('pain') || lowerQuery.includes('sick')) {
-      return "I understand you're experiencing symptoms. While I can provide general health information, it's important to consult with a healthcare professional for proper diagnosis. However, I can help you track your symptoms over time. Would you like to log your symptoms?";
-    }
-    
-    if (lowerQuery.includes('reminder') || lowerQuery.includes('schedule') || lowerQuery.includes('appointment')) {
-      return "I can set up smart reminders for you! You'll receive SMS notifications and app alerts for: medications, appointments, health checkups, and daily health activities. What would you like me to remind you about?";
-    }
-    
-    return "I'm here to help with your health management! I can assist with: ✓ Medication tracking & reminders ✓ Test result interpretation ✓ Health activity logging ✓ Symptom tracking ✓ Appointment reminders. What would you like to do?";
+  };
+
+  const handleVoiceTranscript = (transcript: string) => {
+    setInput(transcript);
   };
 
   return (
@@ -103,8 +149,17 @@ export function AIChat() {
             </span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            Get instant answers to your health questions, 24/7
+            Powered by {useOpenAI ? 'OpenAI GPT-5' : 'Google Gemini 2.5'} • Voice enabled
           </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setUseOpenAI(!useOpenAI)}
+            className="mt-4 gap-2"
+          >
+            <Sparkles className="w-4 h-4" />
+            Switch to {useOpenAI ? 'Gemini' : 'OpenAI'}
+          </Button>
         </motion.div>
 
         <Card className="border-border/50 shadow-2xl shadow-primary/5 bg-card/80 backdrop-blur-sm overflow-hidden">
@@ -166,6 +221,17 @@ export function AIChat() {
                   </div>
                 </motion.div>
               )}
+
+              {isSpeaking && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex items-center gap-2 text-primary justify-center"
+                >
+                  <Volume2 className="w-4 h-4 animate-pulse" />
+                  <span className="text-sm">Speaking...</span>
+                </motion.div>
+              )}
             </div>
 
             {/* Input */}
@@ -184,6 +250,7 @@ export function AIChat() {
                   disabled={!isConnected}
                   className="resize-none min-h-[60px] bg-background"
                 />
+                <VoiceAssistant onTranscript={handleVoiceTranscript} />
                 <Button
                   onClick={handleSend}
                   disabled={!input.trim() || isLoading || !isConnected}
