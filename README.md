@@ -105,9 +105,35 @@ The app automatically prompts users to add Camp Network when they connect their 
 
 ## 📱 Mobile Web3 Wallet Support
 
-MEDPRO includes smart wallet detection:
-- **Wallet Installed**: Opens the wallet app for connection
-- **No Wallet**: Redirects to Play Store/App Store to download MetaMask or other Web3 wallets
+MEDPRO works with all EVM-compatible wallets:
+- **MetaMask** - Most popular Web3 wallet
+- **Trust Wallet** - Multi-chain wallet
+- **Binance Wallet** - Built into Binance app
+- **Bybit Wallet** - Exchange wallet
+- And many more EVM wallets!
+
+**Best Mobile Experience**: Open this app in your wallet's built-in browser for seamless connection.
+
+## 🤖 Adding Real AI Functionality
+
+Currently, the AI chat interface is a UI mockup. To add real AI capabilities:
+
+### Option 1: Lovable AI (Recommended)
+- ✅ No API keys needed
+- ✅ Pre-configured and ready to use
+- ✅ Models: Google Gemini 2.5, OpenAI GPT-5
+- 📝 Ask: *"Enable Lovable Cloud and add real AI chat functionality"*
+
+### Option 2: Your OpenAI Keys
+- You have OpenAI API keys ready
+- 📝 Ask: *"Add OpenAI integration for the chat using my API keys"*
+
+## 🔐 Security Note
+
+**Your private keys are NEVER needed!** 
+- Wallet apps handle all transaction signing
+- We only request signatures, never private keys
+- Your keys stay secure in your wallet
 
 ## 🏗️ Smart Contract Integration
 
