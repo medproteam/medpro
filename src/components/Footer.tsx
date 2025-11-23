@@ -1,4 +1,5 @@
-import { Activity, Github, Twitter, FileText } from 'lucide-react';
+import { Github, Twitter, FileText } from 'lucide-react';
+import medproLogo from '@/assets/medpro-logo.jpg';
 
 export function Footer() {
   return (
@@ -8,10 +9,12 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-primary to-secondary">
-                <Activity className="w-4 h-4 text-white" />
-                <span className="font-bold text-white">MEDPRO</span>
-              </div>
+              <img
+                src={medproLogo}
+                alt="MEDPRO logo"
+                className="h-8 w-auto object-contain rounded-lg"
+              />
+              <span className="font-bold text-white">MEDPRO</span>
             </div>
             <p className="text-sm text-muted-foreground">
               AI-powered healthcare companion on Camp Network blockchain

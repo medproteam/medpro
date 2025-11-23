@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom';
 import { WalletConnect } from './WalletConnect';
 import { motion } from 'framer-motion';
-import { Activity, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
+import medproLogo from '@/assets/medpro-logo.jpg';
 
-export function Header() {
+interface HeaderProps {
+  autoOpenWallet?: boolean;
+}
+
+export function Header({ autoOpenWallet }: HeaderProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isConnected } = useAccount();
 
@@ -32,9 +37,11 @@ export function Header() {
     >
       <div className="container flex h-16 items-center justify-between px-4 mx-auto">
         <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-secondary">
-            <Activity className="w-5 h-5 text-white" />
-          </div>
+          <img
+            src={medproLogo}
+            alt="MEDPRO logo"
+            className="h-8 w-auto object-contain rounded-lg shadow-sm"
+          />
           <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             MEDPRO
           </span>
@@ -53,7 +60,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <WalletConnect />
+          <WalletConnect autoOpenOnMount={autoOpenWallet} />
           
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild className="md:hidden">

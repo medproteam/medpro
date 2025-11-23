@@ -70,7 +70,7 @@ export default function DashboardPage() {
   };
 
   const quickActions = [
-    { icon: Pill, label: 'Log Medication', href: '/', color: 'from-primary to-primary/70' },
+    { icon: Pill, label: 'Log Medication', href: '/dashboard', color: 'from-primary to-primary/70' },
     { icon: Activity, label: 'Record Vitals', href: '/vital-signs', color: 'from-secondary to-secondary/70' },
     { icon: FileText, label: 'AI Chat', href: '/ai-chat', color: 'from-accent to-accent/70' },
     { icon: Heart, label: 'Health Library', href: '/health-library', color: 'from-medical-orange to-medical-orange/70' },

@@ -6,6 +6,7 @@ import { WagmiProvider } from 'wagmi';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { wagmiConfig } from '@/lib/wagmiConfig';
 import Index from "./pages/Index";
+import LoginWalletPage from "./pages/LoginWalletPage";
 import AIChatPage from "./pages/AIChatPage";
 import HealthSearchPage from "./pages/HealthSearchPage";
 import ProfilePage from "./pages/ProfilePage";
