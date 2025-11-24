@@ -4,7 +4,24 @@ import { Input } from '@/components/ui/input';
 import { BottomNav } from '@/components/BottomNav';
 import { BookOpen, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { MEDICAL_TERMS } from '@/data/medicalTerms';
+
+const MEDICAL_TERMS = [
+  { term: 'Hypertension', definition: 'High blood pressure, a condition where the force of blood against artery walls is too high.' },
+  { term: 'Diabetes', definition: 'A chronic condition affecting how your body processes blood sugar (glucose).' },
+  { term: 'Arthritis', definition: 'Inflammation of one or more joints, causing pain and stiffness.' },
+  { term: 'Asthma', definition: 'A respiratory condition marked by spasms in the bronchi, causing difficulty breathing.' },
+  { term: 'Anemia', definition: 'A condition where you lack enough healthy red blood cells to carry adequate oxygen.' },
+  { term: 'Antibiotic', definition: 'A medicine that inhibits the growth of or destroys microorganisms.' },
+  { term: 'Biopsy', definition: 'A procedure to remove a sample of tissue for laboratory examination.' },
+  { term: 'Cardiovascular', definition: 'Relating to the heart and blood vessels.' },
+  { term: 'CT Scan', definition: 'Computed Tomography, an imaging procedure using X-rays to create detailed body images.' },
+  { term: 'Diagnosis', definition: 'The identification of a disease or condition by examining symptoms.' },
+  { term: 'ECG/EKG', definition: 'Electrocardiogram, a test recording the electrical activity of the heart.' },
+  { term: 'Inflammation', definition: 'A localized physical condition with heat, swelling, and pain as a reaction to injury or infection.' },
+  { term: 'MRI', definition: 'Magnetic Resonance Imaging, using magnetic fields to create detailed organ and tissue images.' },
+  { term: 'Prognosis', definition: 'The likely course or outcome of a disease.' },
+  { term: 'Vaccine', definition: 'A substance used to stimulate immunity against diseases.' },
+];
 
 export default function MedicalDictionaryPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -44,7 +61,6 @@ export default function MedicalDictionaryPage() {
                 className="pl-10"
               />
             </div>
-            <p className="text-xs text-muted-foreground mt-2">Search from {MEDICAL_TERMS.length}+ medical terms</p>
           </Card>
 
           {/* Terms List */}
@@ -54,10 +70,10 @@ export default function MedicalDictionaryPage() {
                 key={item.term}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.02 }}
+                transition={{ delay: index * 0.05 }}
               >
                 <Card className="p-4 hover:shadow-lg transition-shadow">
-                  <h3 className="text-lg font-semibold text-primary mb-2">
+                  <h3 className="text-lg font-semibold text-medical-cyan mb-2">
                     {item.term}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">

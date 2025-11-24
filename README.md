@@ -1,106 +1,88 @@
-# MEDPRO - Web3 Healthcare Management Platform
-
-A modern, comprehensive healthcare management platform built with React, TypeScript, and Lovable Cloud, featuring wallet-based authentication and AI-powered health tools.
+# MEDPRO - AI-Powered Medical Adherence Assistant
 
 Built on **Camp Network** blockchain for the TechyJaunt X Camp Network Buildathon.
 
+## 🏥 Overview
+
+MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by helping patients stick to their treatment plans. Built on Camp Network's blockchain infrastructure, MEDPRO combines the power of AI with the security and transparency of Web3.
+
 ## ✨ Features
 
-### 🔐 Web3 Authentication
-- Secure wallet-based login (no passwords required)
-- Built on Camp Network blockchain
-- Privacy-focused and decentralized
+### 🤖 AI Health Assistant
+- 24/7 conversational AI for health guidance
+- Personalized health recommendations
+- Natural language understanding
 
-### 🏥 Health Management
-- **Vital Signs Tracking**: Monitor blood pressure, heart rate, temperature, oxygen saturation, and blood sugar
-- **Medication Management**: Track medications, dosages, and schedules with smart reminders
-- **Health Records**: Secure storage and management of health history
-- **Activity Logging**: Track all your health-related activities
+### 💊 Smart Medication Tracking
+- Intelligent medication reminders
+- Dosage tracking and adherence monitoring
+- SMS and push notifications
 
-### 🤖 AI-Powered Tools
-- **AI Health Chat**: 24/7 conversational AI for instant health guidance using Lovable AI
-- **Symptom Checker**: Analyze symptoms with AI assistance and autocomplete suggestions
-- **Health Term Search**: Get simplified explanations of medical terms
+### 📊 Test Result Interpretation
+- AI-powered analysis of medical tests
+- Clear, easy-to-understand explanations
+- Historical tracking and trends
 
-### 📚 Educational Resources
-- **Medical Dictionary**: Comprehensive database of 200+ medical terms from A-Z
-- **Daily Health Quiz**: Test your health knowledge with daily quizzes and build streaks
-- **Health Library**: Curated health information and resources
+### 🔐 Blockchain Security
+- Health data encrypted and secured on Camp Network
+- Decentralized storage for privacy
+- Immutable health records
 
-### 🔔 Notifications
-- SMS notifications for medication reminders
-- Push notifications for health alerts
-- Customizable notification preferences
+### 📱 Multi-Channel Access
+- Web application
+- SMS interactions
+- Voice commands support
 
-### 📱 User Experience
-- Fully responsive design for mobile and desktop
-- Dark mode support
-- Smooth animations and transitions
-- Bottom navigation for easy mobile access
-- Animated background themes
+### 📈 Health Analytics
+- Visualize health trends over time
+- Activity history and progress tracking
+- Personalized insights
 
 ## 🛠️ Technology Stack
 
-### Frontend
-- **React 18** with TypeScript
-- **Vite** for fast development and building
-- **Tailwind CSS** with custom design system
-- **shadcn/ui** and **Radix UI** for components
-- **Framer Motion** for animations
-
-### Backend
-- **Lovable Cloud** (powered by Supabase)
-- **PostgreSQL** database with Row Level Security
-- **Edge Functions** for serverless logic
-
-### Blockchain
-- **Camp Network** testnet (Chain ID: 123420001114)
-- **Wagmi** and **Viem** for Web3 integration
-- **WalletConnect** for wallet connections
-
-### AI
-- **Lovable AI** with Google Gemini 2.5 and OpenAI GPT-5
-- No API keys required from users
+- **Frontend**: React + TypeScript + Vite
+- **UI**: TailwindCSS + shadcn/ui + Framer Motion
+- **Blockchain**: Camp Network Testnet (Chain ID: 123420001114)
+- **Web3**: Wagmi + Viem
+- **Smart Contract**: `0x37a487D193F7717206762Ec0B3c247A2C8C64b15`
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ or Bun
-- A Web3 wallet (MetaMask, Trust Wallet, etc.)
+- Node.js 18+
+- A Web3 wallet (MetaMask, etc.)
 - CAMP tokens from [Camp Network Faucet](https://faucet.campnetwork.xyz/)
 
 ### Installation
 
-1. Clone the repository
 ```bash
-git clone <your-repo-url>
+# Clone the repository
+git clone <YOUR_GIT_URL>
+
+# Navigate to project
 cd medpro
-```
 
-2. Install dependencies
-```bash
+# Install dependencies
 npm install
-# or
-bun install
-```
 
-3. Start the development server
-```bash
+# Start development server
 npm run dev
-# or
-bun dev
 ```
 
-4. Open [http://localhost:5173](http://localhost:5173) in your browser
+### Deployment to Vercel
 
-### Environment Variables
+1. **Connect GitHub Repository**
+   - Push your code to GitHub
+   - Connect repository to Vercel
 
-The project uses Lovable Cloud, which automatically configures:
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_PUBLISHABLE_KEY`
-- `VITE_SUPABASE_PROJECT_ID`
+2. **Configure Build Settings**
+   - Framework Preset: Vite
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
 
-No manual configuration needed!
+3. **Deploy**
+   - Click "Deploy"
+   - Your app will be live!
 
 ## 🌐 Camp Network Configuration
 
@@ -111,126 +93,83 @@ No manual configuration needed!
   - `https://rpc.basecamp.t.raas.gelato.cloud`
   - `https://rpc-campnetwork.xyz`
 - **Currency**: CAMP
-- **Block Explorer**: https://basecamp.cloud.blockscout.com
+- **Explorer**: https://basecamp.cloud.blockscout.com
 
 ### Adding Camp Network to Your Wallet
 
-The app automatically prompts users to add Camp Network. Alternatively:
+The app automatically prompts users to add Camp Network when they connect their wallet. Alternatively:
+
 1. Open your wallet
 2. Add network manually with the details above
-3. Get testnet CAMP from [faucet](https://faucet.campnetwork.xyz/)
+3. Get testnet CAMP from the [faucet](https://faucet.campnetwork.xyz/)
 
-## 📊 Database Schema
+## 📱 Mobile Web3 Wallet Support
 
-Main tables:
-- `user_profiles`: User information and health profile data
-- `medications`: Medication tracking and schedules
-- `vital_signs`: Health metrics and vital signs history
-- `health_records`: Medical records and documents
-- `activity_logs`: User activity tracking
-- `medication_logs`: Medication adherence tracking
-
-All tables use Row Level Security (RLS) for data protection.
-
-## 📁 Project Structure
-
-```
-src/
-├── assets/          # Images and static assets
-├── components/      # Reusable React components
-│   ├── ui/         # shadcn/ui components
-│   └── *.tsx       # App-specific components
-├── config/         # Configuration files
-├── data/           # Static data (medical terms, quiz questions)
-├── hooks/          # Custom React hooks
-├── integrations/   # Supabase client and types
-├── lib/            # Utility functions
-├── pages/          # Page components
-└── main.tsx        # Application entry point
-```
-
-## 🔒 Security Features
-
-- **Wallet Authentication**: No passwords, no central authentication server
-- **Row Level Security**: Database-level access control
-- **Encrypted Data**: All health data encrypted at rest
-- **Blockchain Integrity**: Immutable health records on Camp Network
-- **Private Keys Never Exposed**: All signing happens in the wallet
-
-## 🚀 Deployment
-
-### Deploy to Vercel
-
-1. Push your code to GitHub
-2. Import repository in Vercel
-3. Vercel auto-detects Vite configuration
-4. Click Deploy!
-
-The backend (Lovable Cloud) is already hosted and configured.
-
-### Can I Deploy Now?
-
-✅ **YES!** The project is production-ready:
-- Backend is fully configured via Lovable Cloud
-- Database schema is complete with RLS policies
-- Frontend is optimized for production
-- No additional configuration needed
-
-Simply deploy to Vercel and it works!
-
-## 🎯 Key Features Implementation
-
-### Daily Health Quiz Streaks
-- Tracks daily participation in localStorage
-- Maintains streak count across days
-- Dashboard reminder when quiz hasn't been played today
-- Encourages consistent health education engagement
-
-### Medical Dictionary
-- 200+ comprehensive medical terms
-- Searchable A-Z reference
-- Clear, simple definitions
-- Covers all major medical categories
-
-### Symptom Checker with Autocomplete
-- Suggests common symptoms as you type
-- AI-powered symptom analysis
-- Quick access to related health information
-
-### AI Health Chat
-- Powered by Lovable AI (no API keys needed)
-- Access to Google Gemini 2.5 and OpenAI GPT-5
-- Instant health information and guidance
-- Natural conversation interface
-
-## 📱 Mobile Support
-
-Works with all EVM-compatible wallets:
+MEDPRO works with all EVM-compatible wallets:
 - **MetaMask** - Most popular Web3 wallet
 - **Trust Wallet** - Multi-chain wallet
-- **Bybit Wallet** - Exchange wallet
 - **Binance Wallet** - Built into Binance app
-- And many more!
+- **Bybit Wallet** - Exchange wallet
+- And many more EVM wallets!
 
-**Best Mobile Experience**: Open in your wallet's built-in browser.
+**Best Mobile Experience**: Open this app in your wallet's built-in browser for seamless connection.
+
+## 🤖 Adding Real AI Functionality
+
+Currently, the AI chat interface is a UI mockup. To add real AI capabilities:
+
+### Option 1: Lovable AI (Recommended)
+- ✅ No API keys needed
+- ✅ Pre-configured and ready to use
+- ✅ Models: Google Gemini 2.5, OpenAI GPT-5
+- 📝 Ask: *"Enable Lovable Cloud and add real AI chat functionality"*
+
+### Option 2: Your OpenAI Keys
+- You have OpenAI API keys ready
+- 📝 Ask: *"Add OpenAI integration for the chat using my API keys"*
+
+## 🔐 Security Note
+
+**Your private keys are NEVER needed!** 
+- Wallet apps handle all transaction signing
+- We only request signatures, never private keys
+- Your keys stay secure in your wallet
+
+## 🏗️ Smart Contract Integration
+
+Contract Address: `0x37a487D193F7717206762Ec0B3c247A2C8C64b15`
+
+The smart contract handles:
+- Health data storage on-chain
+- Medication schedule management
+- Patient adherence tracking
+- Secure data access control
+
+## 📖 Resources
+
+- [Camp Network Docs](https://docs.campnetwork.xyz)
+- [Origin SDK](https://github.com/campaign-layer/origin-sdk)
+- [Camp Network Explorer](https://basecamp.cloud.blockscout.com)
+- [Testnet Faucet](https://faucet.campnetwork.xyz/)
+- [Camp Discord](https://discord.com/invite/campnetwork)
 
 ## 🎯 Buildathon Submission
 
-Submitted for **TechyJaunt X Camp Network $10,000 Buildathon** - AI Track
+This project is submitted for the **TechyJaunt X Camp Network $10,000 Buildathon** in the **AI Track**.
 
 ### Problem Solved
-Up to 40% of patients don't adhere to treatment plans. MEDPRO solves this by:
-- AI-powered personalized health support
-- Automated medication reminders
-- Clear test result interpretations
-- Blockchain-secured health data
-- Accessible multi-channel tools
+Patient nonadherence to treatment plans affects up to 40% of patients. MEDPRO addresses this by:
+- Providing AI-powered personalized health support
+- Automating medication reminders
+- Offering clear test result interpretations
+- Securing health data on blockchain
+- Improving patient engagement through accessible tools
 
 ### Innovation
-- **AI + Web3**: Healthcare assistance meets blockchain security
-- **Comprehensive Platform**: All health tools in one place
-- **Educational Focus**: Daily quizzes and medical dictionary
-- **User Privacy**: Decentralized, patient-owned data
+- **AI + Web3**: Combines AI healthcare assistance with blockchain security
+- **Multi-Modal Access**: Web, SMS, and voice interactions
+- **Decentralized Health Records**: Patient-owned, blockchain-secured data
+- **Real-Time Support**: 24/7 AI assistant for immediate health guidance
 
 ## 👥 Team
 
@@ -246,32 +185,20 @@ BETECHIFIED Bootcamp GROUP 2
 - Ayoade Olanrewaju Joseph
 - Daniel Dintie Borsu
 
-## 📖 Resources
-
-- [Camp Network Docs](https://docs.campnetwork.xyz)
-- [Lovable Documentation](https://docs.lovable.dev)
-- [Camp Network Explorer](https://basecamp.cloud.blockscout.com)
-- [Testnet Faucet](https://faucet.campnetwork.xyz/)
-- [Camp Discord](https://discord.com/invite/campnetwork)
-
 ## 📄 License
 
-MIT License
+MIT License - see LICENSE file for details
 
 ## 🤝 Contributing
 
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 🔗 Links
 
-- **Live Demo**: [Deploy to see it live]
-- **GitHub**: [Your Repository]
-- **Camp Network Explorer**: https://basecamp.cloud.blockscout.com
+- **Live Demo**: [Coming Soon]
+- **GitHub**: [Repository Link]
+- **Contract Explorer**: [View on BlockScout](https://basecamp.cloud.blockscout.com/address/0x37a487D193F7717206762Ec0B3c247A2C8C64b15)
 
 ---
 
-Built with ❤️ using Lovable and Camp Network
+Built with ❤️ on Camp Network
