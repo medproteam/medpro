@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { WalletConnect } from './WalletConnect';
 import { motion } from 'framer-motion';
 import { Menu } from 'lucide-react';
@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
-import medproLogo from '@/assets/medpro-logo-cropped.png';
+import medproLogo from '@/assets/medpro-logo-clean.jpg';
 
 interface HeaderProps {
   autoOpenWallet?: boolean;
@@ -15,6 +15,11 @@ interface HeaderProps {
 export function Header({ autoOpenWallet }: HeaderProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isConnected } = useAccount();
+  const navigate = useNavigate();
+  
+  const handleLogoClick = () => {
+    navigate(isConnected ? '/dashboard' : '/home');
+  };
 
   const navItems = [
     { href: '/home', label: 'Home' },
@@ -36,13 +41,16 @@ export function Header({ autoOpenWallet }: HeaderProps = {}) {
       className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60"
     >
       <div className="container flex h-16 items-center justify-between px-4 mx-auto">
-        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <button onClick={handleLogoClick} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <img
             src={medproLogo}
             alt="MEDPRO logo"
             className="h-10 w-auto object-contain"
           />
-        </Link>
+          <span className="text-xl font-bold bg-gradient-to-r from-medical-cyan to-medical-blue bg-clip-text text-transparent">
+            MEDPRO
+          </span>
+        </button>
         
         <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (

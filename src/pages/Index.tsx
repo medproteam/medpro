@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
-import medproLogo from '@/assets/medpro-logo-cropped.png';
+import medproLogo from '@/assets/medpro-logo-clean.jpg';
 
 const healthFacts = [
   "💧 Drinking water first thing in the morning helps activate your internal organs.",
@@ -101,12 +101,12 @@ const Index = () => {
               scale: [1, 1.05, 1],
             }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="mb-8"
+            className="mb-8 w-full flex items-center justify-center"
           >
             <img 
               src={medproLogo} 
               alt="MEDPRO" 
-              className="w-full max-w-[400px] sm:max-w-[500px] md:max-w-[600px] h-auto mx-auto mb-6 object-contain drop-shadow-2xl"
+              className="w-[80vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] max-w-[800px] h-auto object-contain drop-shadow-2xl"
             />
           </motion.div>
           
@@ -177,10 +177,40 @@ const Index = () => {
         />
       </div>
 
+      {/* Animated Logo Background */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none overflow-hidden z-0">
+        {[...Array(3)].map((_, i) => (
+          <motion.img
+            key={i}
+            src={medproLogo}
+            alt=""
+            className="absolute"
+            style={{
+              width: '40vw',
+              left: `${20 + i * 30}%`,
+              top: `${10 + i * 25}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              rotate: [0, 5, 0],
+              opacity: [0.03, 0.08, 0.03],
+            }}
+            transition={{
+              duration: 8 + i * 2,
+              repeat: Infinity,
+              delay: i * 2,
+            }}
+          />
+        ))}
+      </div>
+
       {/* Header */}
       <header className="bg-card/80 backdrop-blur-md border-b border-border/50 p-4 sm:p-6 relative z-10">
-        <div className="container mx-auto flex items-center justify-center">
-          <img src={medproLogo} alt="MEDPRO" className="h-16 w-auto object-contain" />
+        <div className="container mx-auto flex items-center justify-center gap-3">
+          <img src={medproLogo} alt="MEDPRO" className="h-14 w-auto object-contain" />
+          <span className="text-2xl font-bold bg-gradient-to-r from-medical-cyan to-medical-blue bg-clip-text text-transparent">
+            MEDPRO
+          </span>
         </div>
       </header>
 

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Activity, FileSearch, MessageSquare, Calendar } from 'lucide-react';
+import { Home, Activity, FileSearch, MessageSquare, Bell } from 'lucide-react';
 
 export function BottomNav() {
   const location = useLocation();
@@ -8,7 +8,7 @@ export function BottomNav() {
     { icon: Home, label: 'Home', path: '/dashboard' },
     { icon: FileSearch, label: 'Symptoms', path: '/symptom-checker' },
     { icon: Activity, label: 'Tracking', path: '/health-tracking' },
-    { icon: Calendar, label: 'Appointments', path: '/appointments' },
+    { icon: Bell, label: 'Alerts', path: '/notifications' },
     { icon: MessageSquare, label: 'AI Chat', path: '/ai-chat' },
   ];
 

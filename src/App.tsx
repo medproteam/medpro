@@ -19,6 +19,7 @@ import SymptomCheckerPage from "./pages/SymptomCheckerPage";
 import HealthTrackingPage from "./pages/HealthTrackingPage";
 import MedicationsPage from "./pages/MedicationsPage";
 import AppointmentsPage from "./pages/AppointmentsPage";
+import NotificationsPage from "./pages/NotificationsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/health-tracking" element={<HealthTrackingPage />} />
             <Route path="/medications" element={<MedicationsPage />} />
             <Route path="/appointments" element={<AppointmentsPage />} />
+            <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

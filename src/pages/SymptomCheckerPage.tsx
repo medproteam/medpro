@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +11,7 @@ import { motion } from 'framer-motion';
 export default function SymptomCheckerPage() {
   const [symptoms, setSymptoms] = useState('');
   const [results, setResults] = useState<any>(null);
+  const navigate = useNavigate();
 
   const handleCheck = () => {
     // Simulated results
@@ -114,18 +116,24 @@ export default function SymptomCheckerPage() {
 
           {/* Info Cards */}
           <div className="grid grid-cols-3 gap-3">
-            <Card className="p-4 text-center space-y-2">
-              <Heart className="w-8 h-8 mx-auto text-medical-cyan" />
-              <p className="text-xs font-medium">Track Vitals</p>
-            </Card>
-            <Card className="p-4 text-center space-y-2">
-              <Pill className="w-8 h-8 mx-auto text-medical-blue" />
-              <p className="text-xs font-medium">Medications</p>
-            </Card>
-            <Card className="p-4 text-center space-y-2">
-              <Brain className="w-8 h-8 mx-auto text-medical-green" />
-              <p className="text-xs font-medium">AI Insights</p>
-            </Card>
+            <button onClick={() => navigate('/vital-signs')}>
+              <Card className="p-4 text-center space-y-2 hover:shadow-lg transition-shadow cursor-pointer">
+                <Heart className="w-8 h-8 mx-auto text-medical-cyan" />
+                <p className="text-xs font-medium">Track Vitals</p>
+              </Card>
+            </button>
+            <button onClick={() => navigate('/medications')}>
+              <Card className="p-4 text-center space-y-2 hover:shadow-lg transition-shadow cursor-pointer">
+                <Pill className="w-8 h-8 mx-auto text-medical-blue" />
+                <p className="text-xs font-medium">Medications</p>
+              </Card>
+            </button>
+            <button onClick={() => navigate('/ai-chat')}>
+              <Card className="p-4 text-center space-y-2 hover:shadow-lg transition-shadow cursor-pointer">
+                <Brain className="w-8 h-8 mx-auto text-medical-green" />
+                <p className="text-xs font-medium">AI Insights</p>
+              </Card>
+            </button>
           </div>
         </motion.div>
       </main>
