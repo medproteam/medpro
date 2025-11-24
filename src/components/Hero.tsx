@@ -92,7 +92,12 @@ export function Hero() {
             <Button
               size="lg"
               className="bg-gradient-to-r from-primary to-secondary hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 text-white px-8"
-              onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => {
+                const featuresSection = document.getElementById('features');
+                if (featuresSection) {
+                  featuresSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               Get Started
               <Activity className="ml-2 w-4 h-4" />

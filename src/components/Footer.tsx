@@ -1,5 +1,5 @@
 import { Github, Twitter, FileText } from 'lucide-react';
-import medproLogo from '@/assets/medpro-logo.jpg';
+import medproLogo from '@/assets/medpro-logo-cropped.png';
 
 export function Footer() {
   return (
