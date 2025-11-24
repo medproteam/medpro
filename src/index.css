@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,8 +10,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Modern Medical Theme - Light Mode */
-    --background: 0 0% 100%;
+    /* Modern Medical + Web3 Theme - Light Mode */
+    --background: 210 40% 98%;
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -21,7 +23,7 @@ All colors MUST be HSL.
     --primary: 198 93% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 91% 60%;
+    --secondary: 262 83% 58%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96%;
@@ -39,17 +41,20 @@ All colors MUST be HSL.
 
     --radius: 1rem;
     
-    /* Medical Theme Colors */
+    /* Medical + Web3 Theme Colors */
     --medical-cyan: 198 93% 60%;
     --medical-blue: 217 91% 60%;
     --medical-green: 142 76% 36%;
     --medical-orange: 25 95% 53%;
-    --medical-purple: 262 52% 47%;
+    --medical-purple: 262 83% 58%;
+    --web3-gradient: linear-gradient(135deg, hsl(262 83% 58%), hsl(198 93% 60%), hsl(142 76% 36%));
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(198 93% 60%), hsl(217 91% 60%));
+    --gradient-primary: linear-gradient(135deg, hsl(198 93% 60%), hsl(262 83% 58%));
+    --gradient-secondary: linear-gradient(135deg, hsl(262 83% 58%), hsl(217 91% 60%));
     --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 46%));
-    --gradient-hero: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-hero: linear-gradient(180deg, hsl(210 40% 98%), hsl(198 93% 95%));
+    --gradient-web3: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(198 93% 60%) 50%, hsl(142 76% 36%) 100%);
     
     /* Shadows */
     --shadow-sm: 0 1px 2px hsl(222 47% 11% / 0.05);
@@ -114,6 +119,35 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
+  }
+  
+  .bg-web3-gradient {
+    background: var(--gradient-web3);
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
   }
 }
