@@ -60,7 +60,7 @@ export default function HealthQuizPage() {
       setSelectedAnswer(null);
       setShowResult(false);
     } else {
-      setQuizComplete(true);
+      completeQuiz();
     }
   };
 
@@ -70,6 +70,35 @@ export default function HealthQuizPage() {
     setShowResult(false);
     setScore(0);
     setQuizComplete(false);
+  };
+
+  const completeQuiz = () => {
+    const today = new Date().toISOString();
+    const savedData = localStorage.getItem('healthQuizData');
+    let streak = 1;
+
+    if (savedData) {
+      const parsed = JSON.parse(savedData);
+      const lastPlayed = new Date(parsed.lastPlayed);
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      
+      if (lastPlayed.toDateString() === yesterday.toDateString()) {
+        streak = (parsed.streak || 0) + 1;
+      } else if (lastPlayed.toDateString() !== new Date().toDateString()) {
+        streak = 1;
+      } else {
+        streak = parsed.streak || 1;
+      }
+    }
+
+    localStorage.setItem('healthQuizData', JSON.stringify({
+      lastPlayed: today,
+      streak: streak,
+      score: score,
+    }));
+
+    setQuizComplete(true);
   };
 
   const question = QUIZ_QUESTIONS[currentQuestion];
