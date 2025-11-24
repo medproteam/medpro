@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { Activity, Pill, Heart, FileText, TrendingUp, Calendar, User, Bell } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { HealthQuizReminder } from '@/components/HealthQuizReminder';
 
 export default function DashboardPage() {
   const { address, isConnected } = useAccount();
@@ -162,21 +163,7 @@ export default function DashboardPage() {
 
           {/* Recent Activity */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-primary" />
-                  Upcoming Reminders
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8 text-muted-foreground">
-                  <Bell className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                  <p>No upcoming reminders</p>
-                  <p className="text-sm mt-1">Add medications to get started</p>
-                </div>
-              </CardContent>
-            </Card>
+            <HealthQuizReminder />
 
             <Card>
               <CardHeader>
