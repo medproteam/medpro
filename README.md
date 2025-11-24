@@ -1,4 +1,4 @@
-q# MEDPRO - AI-Powered Medical Adherence Assistant
+# MEDPRO - AI-Powered Medical Adherence Assistant
 
 Built on **Camp Network** blockchain for the TechyJaunt X Camp Network Buildathon.
 
@@ -53,37 +53,6 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 - A Web3 wallet (MetaMask, etc.)
 - CAMP tokens from [Camp Network Faucet](https://faucet.campnetwork.xyz/)
 
-### Installation
-
-```bash
-# Clone the repository
-git clone <YOUR_GIT_URL>
-
-# Navigate to project
-cd medpro
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-### Deployment to Vercel
-
-1. **Connect GitHub Repository**
-   - Push your code to GitHub
-   - Connect repository to Vercel
-
-2. **Configure Build Settings**
-   - Framework Preset: Vite
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-
-3. **Deploy**
-   - Click "Deploy"
-   - Your app will be live!
-
 ## 🌐 Camp Network Configuration
 
 ### Network Details
@@ -113,27 +82,6 @@ MEDPRO works with all EVM-compatible wallets:
 - And many more EVM wallets!
 
 **Best Mobile Experience**: Open this app in your wallet's built-in browser for seamless connection.
-
-## 🤖 Adding Real AI Functionality
-
-Currently, the AI chat interface is a UI mockup. To add real AI capabilities:
-
-### Option 1: Lovable AI (Recommended)
-- ✅ No API keys needed
-- ✅ Pre-configured and ready to use
-- ✅ Models: Google Gemini 2.5, OpenAI GPT-5
-- 📝 Ask: *"Enable Lovable Cloud and add real AI chat functionality"*
-
-### Option 2: Your OpenAI Keys
-- You have OpenAI API keys ready
-- 📝 Ask: *"Add OpenAI integration for the chat using my API keys"*
-
-## 🔐 Security Note
-
-**Your private keys are NEVER needed!** 
-- Wallet apps handle all transaction signing
-- We only request signatures, never private keys
-- Your keys stay secure in your wallet
 
 ## 🏗️ Smart Contract Integration
 
@@ -173,17 +121,6 @@ Patient nonadherence to treatment plans affects up to 40% of patients. MEDPRO ad
 
 ## 👥 Team
 
-BETECHIFIED Bootcamp GROUP 2
-- Anuoluwapo Adepoju
-- Patience Joseph Inakpo
-- Shienkumaaondo Elizabeth Ugeda
-- Esther Abisoye Okebule
-- Olawale Iseoluwa
-- George Oluwakorede Faith
-- Ebuka Paul Okoye
-- Oresanwo Zainab Oyindamola
-- Ayoade Olanrewaju Joseph
-- Daniel Dintie Borsu
 
 ## 📄 License
 
