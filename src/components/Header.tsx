@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
-import medproLogo from '@/assets/medpro-logo.jpg';
+import medproLogo from '@/assets/medpro-logo-cropped.png';
 
 interface HeaderProps {
   autoOpenWallet?: boolean;
@@ -17,8 +17,8 @@ export function Header({ autoOpenWallet }: HeaderProps = {}) {
   const { isConnected } = useAccount();
 
   const navItems = [
-    { href: '/', label: 'Home' },
-    { href: '/#features', label: 'Features' },
+    { href: '/home', label: 'Home' },
+    { href: '/home#features', label: 'Features' },
     { href: '/ai-chat', label: 'AI Chat' },
     { href: '/health-library', label: 'Health Library' },
     ...(isConnected ? [
@@ -36,15 +36,12 @@ export function Header({ autoOpenWallet }: HeaderProps = {}) {
       className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60"
     >
       <div className="container flex h-16 items-center justify-between px-4 mx-auto">
-        <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <img
             src={medproLogo}
             alt="MEDPRO logo"
-            className="h-8 w-auto object-contain rounded-lg shadow-sm"
+            className="h-10 w-auto object-contain"
           />
-          <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            MEDPRO
-          </span>
         </Link>
         
         <nav className="hidden md:flex items-center gap-1">

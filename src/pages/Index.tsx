@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
-import medproLogo from '@/assets/medpro-logo-clean.jpg';
+import medproLogo from '@/assets/medpro-logo-cropped.png';
 
 const healthFacts = [
   "💧 Drinking water first thing in the morning helps activate your internal organs.",
@@ -47,6 +47,8 @@ const Index = () => {
     // Mark this fact as used
     const newUsedFacts = [...usedFacts, selectedIndex];
     localStorage.setItem('usedHealthFacts', JSON.stringify(newUsedFacts));
+    
+    // Set the fact immediately so it shows on first load
     setCurrentFact(healthFacts[selectedIndex]);
 
     // Show splash screen for 3 seconds
@@ -104,7 +106,7 @@ const Index = () => {
             <img 
               src={medproLogo} 
               alt="MEDPRO" 
-              className="w-full max-w-[280px] sm:max-w-[350px] md:max-w-[400px] h-auto mx-auto mb-6 object-contain drop-shadow-2xl"
+              className="w-full max-w-[400px] sm:max-w-[500px] md:max-w-[600px] h-auto mx-auto mb-6 object-contain drop-shadow-2xl"
             />
           </motion.div>
           
@@ -177,11 +179,8 @@ const Index = () => {
 
       {/* Header */}
       <header className="bg-card/80 backdrop-blur-md border-b border-border/50 p-4 sm:p-6 relative z-10">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src={medproLogo} alt="MEDPRO" className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
-            <span className="text-xl sm:text-2xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">MEDPRO</span>
-          </div>
+        <div className="container mx-auto flex items-center justify-center">
+          <img src={medproLogo} alt="MEDPRO" className="h-16 w-auto object-contain" />
         </div>
       </header>
 
@@ -222,6 +221,14 @@ const Index = () => {
               className="w-full h-14 sm:h-16 border-2 border-primary/30 hover:border-primary hover:bg-primary/5 text-base sm:text-lg rounded-xl font-semibold transition-all duration-300 hover:scale-105"
             >
               Log in
+            </Button>
+
+            <Button
+              onClick={() => navigate('/home')}
+              variant="ghost"
+              className="w-full text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              Explore Features
             </Button>
           </div>
 
