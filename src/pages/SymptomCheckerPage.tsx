@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,10 +8,27 @@ import { Brain, AlertTriangle, Activity, ThermometerSun, Heart, Pill } from 'luc
 import { Progress } from '@/components/ui/progress';
 import { motion } from 'framer-motion';
 
+const COMMON_SYMPTOMS = [
+  'headache', 'fever', 'cough', 'fatigue', 'nausea', 'dizziness',
+  'chest pain', 'shortness of breath', 'abdominal pain', 'sore throat',
+  'runny nose', 'body aches', 'chills', 'sweating', 'loss of appetite',
+  'vomiting', 'diarrhea', 'constipation', 'rash', 'itching',
+  'joint pain', 'muscle pain', 'back pain', 'neck pain', 'toothache',
+  'ear pain', 'eye pain', 'blurred vision', 'sensitivity to light',
+  'difficulty sleeping', 'anxiety', 'depression', 'memory problems'
+];
+
 export default function SymptomCheckerPage() {
   const [symptoms, setSymptoms] = useState('');
   const [results, setResults] = useState<any>(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
+
+  const suggestions = useMemo(() => {
+    if (!symptoms || symptoms.length < 2) return [];
+    const searchTerm = symptoms.toLowerCase();
+    return COMMON_SYMPTOMS.filter(s => s.includes(searchTerm)).slice(0, 5);
+  }, [symptoms]);
 
   const handleCheck = () => {
     // Simulated results
@@ -42,17 +59,35 @@ export default function SymptomCheckerPage() {
 
           {/* Input Section */}
           <Card className="p-6 space-y-4">
-            <div>
+            <div className="relative">
               <label className="text-sm font-medium mb-2 block">Describe your symptoms</label>
               <Input
                 placeholder="e.g., headache, fever, cough..."
                 value={symptoms}
                 onChange={(e) => setSymptoms(e.target.value)}
-                className="mb-4"
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                className="mb-2"
               />
+              {showSuggestions && suggestions.length > 0 && (
+                <Card className="absolute z-10 w-full mt-1 p-2 max-h-48 overflow-y-auto">
+                  {suggestions.map((suggestion, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setSymptoms(suggestion);
+                        setShowSuggestions(false);
+                      }}
+                      className="w-full text-left px-3 py-2 hover:bg-muted rounded-md text-sm transition-colors"
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </Card>
+              )}
               <Button
                 onClick={handleCheck}
-                className="w-full bg-medical-cyan hover:bg-medical-cyan/90 text-white"
+                className="w-full bg-medical-cyan hover:bg-medical-cyan/90 text-white mt-2"
                 disabled={!symptoms}
               >
                 Check Symptoms

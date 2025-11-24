@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
-import medproLogo from '@/assets/medpro-logo-clean.jpg';
+import medproLogo from '@/assets/medpro-logo-final.png';
 
 interface HeaderProps {
   autoOpenWallet?: boolean;
@@ -26,6 +26,8 @@ export function Header({ autoOpenWallet }: HeaderProps = {}) {
     { href: '/home#features', label: 'Features' },
     { href: '/ai-chat', label: 'AI Chat' },
     { href: '/health-library', label: 'Health Library' },
+    { href: '/medical-dictionary', label: 'Dictionary' },
+    { href: '/health-quiz', label: 'Quiz' },
     ...(isConnected ? [
       { href: '/dashboard', label: 'Dashboard' },
       { href: '/vital-signs', label: 'Vital Signs' },
@@ -41,13 +43,13 @@ export function Header({ autoOpenWallet }: HeaderProps = {}) {
       className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60"
     >
       <div className="container flex h-16 items-center justify-between px-4 mx-auto">
-        <button onClick={handleLogoClick} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <button onClick={handleLogoClick} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <img
             src={medproLogo}
             alt="MEDPRO logo"
-            className="h-10 w-auto object-contain"
+            className="h-8 w-auto object-contain"
           />
-          <span className="text-xl font-bold bg-gradient-to-r from-medical-cyan to-medical-blue bg-clip-text text-transparent">
+          <span className="text-lg font-bold bg-gradient-to-r from-medical-cyan to-medical-blue bg-clip-text text-transparent">
             MEDPRO
           </span>
         </button>
