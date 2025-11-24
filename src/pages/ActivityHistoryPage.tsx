@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import { BottomNav } from '@/components/BottomNav';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -73,7 +73,7 @@ export default function ActivityHistoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 pb-20">
       <Header />
       <main className="container px-4 py-12 mx-auto max-w-4xl">
         <motion.div
@@ -149,7 +149,7 @@ export default function ActivityHistoryPage() {
           </Card>
         </motion.div>
       </main>
-      <Footer />
+      <BottomNav />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import { BottomNav } from '@/components/BottomNav';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -107,7 +107,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-medical-cyan/10 via-background to-medical-blue/10">
+    <div className="min-h-screen bg-gradient-to-b from-medical-cyan/10 via-background to-medical-blue/10 pb-20">
       <Header />
       <main className="container px-4 py-12 mx-auto max-w-4xl">
         <motion.div
@@ -291,7 +291,7 @@ export default function ProfilePage() {
           </form>
         </motion.div>
       </main>
-      <Footer />
+      <BottomNav />
     </div>
   );
 }
