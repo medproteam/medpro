@@ -20,6 +20,8 @@ import HealthTrackingPage from "./pages/HealthTrackingPage";
 import MedicationsPage from "./pages/MedicationsPage";
 import AppointmentsPage from "./pages/AppointmentsPage";
 import NotificationsPage from "./pages/NotificationsPage";
+import MedicalDictionaryPage from "./pages/MedicalDictionaryPage";
+import HealthQuizPage from "./pages/HealthQuizPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,6 +49,8 @@ const App = () => (
             <Route path="/medications" element={<MedicationsPage />} />
             <Route path="/appointments" element={<AppointmentsPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
+            <Route path="/medical-dictionary" element={<MedicalDictionaryPage />} />
+            <Route path="/health-quiz" element={<HealthQuizPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

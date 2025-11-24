@@ -121,6 +121,36 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground font-sans;
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      url('/src/assets/medpro-logo-final.png'),
+      radial-gradient(circle at 20% 30%, hsl(var(--medical-cyan) / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, hsl(var(--medical-blue) / 0.03) 0%, transparent 50%);
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-position: center, 20% 30%, 80% 70%;
+    background-size: 120px, 600px 600px, 600px 600px;
+    opacity: 0.08;
+    z-index: 0;
+    pointer-events: none;
+    animation: float-background 20s ease-in-out infinite;
+  }
+
+  @keyframes float-background {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-20px) scale(1.05);
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {
