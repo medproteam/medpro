@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { BottomNav } from '@/components/BottomNav';
-import { Brain, CheckCircle, XCircle, Trophy } from 'lucide-react';
+import { Brain, CheckCircle, XCircle, Trophy, Flame } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'sonner';
 
 const QUIZ_QUESTIONS = [
   {
@@ -44,6 +45,23 @@ export default function HealthQuizPage() {
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [quizComplete, setQuizComplete] = useState(false);
+  const [streak, setStreak] = useState(0);
+  const [lastQuizDate, setLastQuizDate] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Load streak data from localStorage
+    const savedStreak = localStorage.getItem('healthQuizStreak');
+    const savedDate = localStorage.getItem('lastHealthQuizDate');
+    
+    if (savedStreak) setStreak(parseInt(savedStreak));
+    if (savedDate) setLastQuizDate(savedDate);
+    
+    // Check if user should be reminded
+    const today = new Date().toDateString();
+    if (savedDate !== today) {
+      toast.info('Complete today\'s health quiz to maintain your streak! 🔥');
+    }
+  }, []);
 
   const handleAnswer = (answerIndex: number) => {
     setSelectedAnswer(answerIndex);
@@ -70,6 +88,22 @@ export default function HealthQuizPage() {
     setShowResult(false);
     setScore(0);
     setQuizComplete(false);
+    
+    // Update streak
+    const today = new Date().toDateString();
+    if (lastQuizDate !== today) {
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      const newStreak = lastQuizDate === yesterday ? streak + 1 : 1;
+      
+      setStreak(newStreak);
+      setLastQuizDate(today);
+      localStorage.setItem('healthQuizStreak', newStreak.toString());
+      localStorage.setItem('lastHealthQuizDate', today);
+      
+      if (newStreak > 1) {
+        toast.success(`🔥 ${newStreak} day streak! Keep it up!`);
+      }
+    }
   };
 
   const question = QUIZ_QUESTIONS[currentQuestion];
@@ -77,10 +111,16 @@ export default function HealthQuizPage() {
   return (
     <div className="min-h-screen bg-background pb-20">
       <header className="bg-card border-b border-border p-4 sticky top-0 z-40 backdrop-blur-lg">
-        <h1 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
-          <Brain className="w-6 h-6 text-medical-cyan" />
-          Health Quiz
-        </h1>
+        <div className="flex items-center justify-between max-w-4xl mx-auto">
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            <Brain className="w-6 h-6 text-medical-cyan" />
+            Health Quiz
+          </h1>
+          <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full">
+            <Flame className="w-4 h-4 text-white" />
+            <span className="text-white font-bold">{streak}</span>
+          </div>
+        </div>
       </header>
 
       <main className="container mx-auto px-4 py-6">

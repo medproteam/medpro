@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import { BottomNav } from '@/components/BottomNav';
 import { HealthTermSearch } from '@/components/HealthTermSearch';
 
 const HealthSearchPage = () => {
@@ -10,7 +10,7 @@ const HealthSearchPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       <Header />
       <main className="py-16 md:py-24 bg-gradient-to-b from-background via-muted/40 to-background">
         <div className="container px-4 mx-auto max-w-5xl">
@@ -34,7 +34,7 @@ const HealthSearchPage = () => {
           <HealthTermSearch />
         </div>
       </main>
-      <Footer />
+      <BottomNav />
     </div>
   );
 };

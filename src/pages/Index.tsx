@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
-import medproLogo from '@/assets/medpro-logo-final.png';
+import medproLogo from '@/assets/medpro-logo-clean.jpg';
 
 const healthFacts = [
   "💧 Drinking water first thing in the morning helps activate your internal organs.",
@@ -98,15 +98,16 @@ const Index = () => {
         >
           <motion.div
             animate={{ 
-              scale: [1, 1.05, 1],
+              scale: [1, 1.1, 1],
+              rotate: [0, 2, -2, 0],
             }}
-            transition={{ duration: 2, repeat: Infinity }}
+            transition={{ duration: 3, repeat: Infinity }}
             className="mb-8 w-full flex items-center justify-center"
           >
             <img 
               src={medproLogo} 
               alt="MEDPRO" 
-              className="w-[80vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] max-w-[800px] h-auto object-contain drop-shadow-2xl"
+              className="w-[90vw] sm:w-[80vw] md:w-[70vw] lg:w-[60vw] max-w-[900px] h-auto object-contain drop-shadow-2xl"
             />
           </motion.div>
           
