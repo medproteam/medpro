@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
 import { Button } from '@/components/ui/button';
@@ -24,43 +24,51 @@ export const CampPayment = ({
   onSuccess 
 }: CampPaymentProps) => {
   const { address } = useAccount();
-  const [isPaying, setIsPaying] = useState(false);
-  const { sendTransaction, data: hash } = useSendTransaction();
+  const { sendTransaction, data: hash, isPending, error } = useSendTransaction();
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
   });
+  const hasRecordedRef = useRef(false);
 
-  const handlePayment = async () => {
+  useEffect(() => {
+    if (error) {
+      console.error('Payment error:', error);
+      toast.error((error as any)?.message || 'Payment failed');
+    }
+  }, [error]);
+
+  const handlePayment = () => {
     if (!address) {
       toast.error('Please connect your wallet first');
       return;
     }
 
     try {
-      setIsPaying(true);
-
-      await sendTransaction({
+      hasRecordedRef.current = false;
+      sendTransaction({
         to: recipientAddress as `0x${string}`,
         value: parseEther(amount),
       });
-
-    } catch (error: any) {
-      console.error('Payment error:', error);
-      toast.error(error?.message || 'Payment failed');
-      setIsPaying(false);
+    } catch (e: any) {
+      console.error('Payment error:', e);
+      toast.error(e?.message || 'Payment failed');
     }
   };
 
-  if (isSuccess && hash && isPaying) {
-    (async () => {
+  useEffect(() => {
+    if (!isSuccess || !hash || !address || hasRecordedRef.current) return;
+
+    hasRecordedRef.current = true;
+
+    const recordSubscription = async () => {
       try {
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + durationDays);
 
-        const { error } = await supabase
+        const { error: insertError } = await supabase
           .from('premium_subscriptions')
           .insert({
-            user_address: address!,
+            user_address: address,
             subscription_type: subscriptionType,
             amount_paid: parseFloat(amount),
             transaction_hash: hash,
@@ -68,18 +76,20 @@ export const CampPayment = ({
             active: true,
           } as any);
 
-        if (error) throw error;
+        if (insertError) throw insertError;
 
-        toast.success('Payment successful! Premium features unlocked.');
-        setIsPaying(false);
+        toast.success('Payment successful. Premium features unlocked.');
         onSuccess?.();
-      } catch (error: any) {
-        console.error('Error recording subscription:', error);
+      } catch (e: any) {
+        console.error('Error recording subscription:', e);
         toast.error('Payment recorded but subscription update failed');
-        setIsPaying(false);
       }
-    })();
-  }
+    };
+
+    recordSubscription();
+  }, [isSuccess, hash, address, durationDays, subscriptionType, amount, onSuccess]);
+
+  const isProcessing = isPending || isConfirming;
 
   return (
     <Card className="border-2 border-primary/20">
@@ -115,19 +125,19 @@ export const CampPayment = ({
             className="flex items-center justify-center gap-2 p-4 bg-primary/10 rounded-lg text-primary"
           >
             <Check className="w-5 h-5" />
-            <span className="font-medium">Payment Successful!</span>
+            <span className="font-medium">Payment Successful.</span>
           </motion.div>
         ) : (
           <Button
             onClick={handlePayment}
-            disabled={isPaying || isConfirming}
+            disabled={isProcessing}
             className="w-full"
             size="lg"
           >
-            {isPaying || isConfirming ? (
+            {isProcessing ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                {isConfirming ? 'Confirming...' : 'Processing...'}
+                {isConfirming ? 'Confirming...' : 'Processing in wallet...'}
               </>
             ) : (
               <>
