@@ -91,9 +91,7 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 - **Storage**: Encrypted health data storage
 
 ### AI & ML
-- **Models**: Multiple AI providers for chat and analysis
-- **Voice**: Text-to-speech and speech-to-text capabilities
-- **NLP**: Natural language processing for symptom analysis
+- **Models used**: `google/gemini-2.5-flash` (Lovable AI gateway for chat & analysis), `gpt-5-mini-2025-08-07` (OpenAI chat), `tts-1` (OpenAI text-to-speech), `whisper-1` (OpenAI speech-to-text)
 
 ### Edge Functions
 - `ai-health-chat` - AI-powered health conversation
