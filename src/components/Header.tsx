@@ -50,7 +50,7 @@ export function Header({ autoOpenWallet }: HeaderProps = {}) {
             alt="MEDPRO logo"
             className="h-10 w-10 object-contain"
           />
-          <span className="text-xl font-bold bg-gradient-to-r from-medical-cyan to-medical-blue bg-clip-text text-transparent">
+          <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-medical-cyan to-medical-blue bg-clip-text text-transparent">
             MEDPRO
           </span>
         </button>

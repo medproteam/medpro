@@ -30,12 +30,12 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6">
               <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 MEDPRO
               </span>
               <br />
-              <span className="text-3xl md:text-5xl text-foreground/80">
+              <span className="text-2xl md:text-3xl lg:text-5xl text-foreground/80">
                 AI Adherence Assistant
               </span>
             </h1>
