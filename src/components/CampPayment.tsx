@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
+import { campTestnet } from '@/config/campNetwork';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
@@ -46,6 +47,8 @@ export const CampPayment = ({
     try {
       hasRecordedRef.current = false;
       sendTransaction({
+        account: address as `0x${string}`,
+        chainId: campTestnet.id,
         to: recipientAddress as `0x${string}`,
         value: parseEther(amount),
       });
