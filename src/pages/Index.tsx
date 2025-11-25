@@ -30,13 +30,11 @@ const Index = () => {
   useEffect(() => {
     document.title = 'Welcome | MEDPRO';
     
-    // Select a random health fact that hasn't been shown recently
     const usedFacts = JSON.parse(localStorage.getItem('usedHealthFacts') || '[]');
     const availableFacts = healthFacts.filter((_, index) => !usedFacts.includes(index));
     
     let selectedIndex;
     if (availableFacts.length === 0) {
-      // Reset if all facts have been shown
       localStorage.setItem('usedHealthFacts', '[]');
       selectedIndex = Math.floor(Math.random() * healthFacts.length);
     } else {
@@ -44,25 +42,20 @@ const Index = () => {
       selectedIndex = healthFacts.indexOf(randomAvailable);
     }
     
-    // Mark this fact as used
     const newUsedFacts = [...usedFacts, selectedIndex];
     localStorage.setItem('usedHealthFacts', JSON.stringify(newUsedFacts));
     
-    // Set the fact immediately so it shows on first load
     setCurrentFact(healthFacts[selectedIndex]);
 
-    // Show splash screen for 3 seconds
     const timer = setTimeout(() => {
       setLoading(false);
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Splash Screen
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 flex items-center justify-center p-4 relative overflow-hidden">
-        {/* Animated background elements */}
         <div className="absolute inset-0 opacity-20">
           <motion.div
             className="absolute top-20 left-20 w-64 h-64 bg-primary/30 rounded-full blur-3xl"
@@ -129,7 +122,6 @@ const Index = () => {
             Your AI-Powered Health Companion on Web3
           </motion.p>
           
-          {/* Health Fact */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -140,7 +132,6 @@ const Index = () => {
             <p className="text-base sm:text-lg text-foreground font-medium leading-relaxed">{currentFact}</p>
           </motion.div>
           
-          {/* Loading indicator */}
           <div className="flex justify-center">
             <div className="w-64 h-2 bg-muted/50 rounded-full overflow-hidden backdrop-blur-sm">
               <motion.div
@@ -158,7 +149,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 flex flex-col relative overflow-hidden">
-      {/* Animated background */}
       <div className="absolute inset-0 opacity-30">
         <motion.div
           className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
@@ -178,7 +168,6 @@ const Index = () => {
         />
       </div>
 
-      {/* Animated Logo Background */}
       <div className="absolute inset-0 opacity-5 pointer-events-none overflow-hidden z-0">
         {[...Array(3)].map((_, i) => (
           <motion.img
@@ -205,7 +194,6 @@ const Index = () => {
         ))}
       </div>
 
-      {/* Header */}
       <header className="bg-card/80 backdrop-blur-md border-b border-border/50 p-4 sm:p-6 relative z-10">
         <div className="container mx-auto flex items-center justify-center gap-3">
           <img src={medproLogo} alt="MEDPRO" className="h-14 w-auto object-contain" />
@@ -215,7 +203,6 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

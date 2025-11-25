@@ -15,7 +15,16 @@ const COMMON_SYMPTOMS = [
   'vomiting', 'diarrhea', 'constipation', 'rash', 'itching',
   'joint pain', 'muscle pain', 'back pain', 'neck pain', 'toothache',
   'ear pain', 'eye pain', 'blurred vision', 'sensitivity to light',
-  'difficulty sleeping', 'anxiety', 'depression', 'memory problems'
+  'difficulty sleeping', 'anxiety', 'depression', 'memory problems',
+  'weakness', 'numbness', 'tingling', 'confusion', 'seizures',
+  'tremors', 'balance problems', 'difficulty swallowing', 'hoarseness',
+  'wheezing', 'rapid breathing', 'rapid heartbeat', 'palpitations',
+  'irregular heartbeat', 'swelling', 'bruising', 'bleeding',
+  'frequent urination', 'painful urination', 'blood in urine', 'dark urine',
+  'pale stools', 'bloody stools', 'bloating', 'gas', 'heartburn',
+  'indigestion', 'jaundice', 'skin changes', 'hair loss', 'nail changes',
+  'excessive thirst', 'excessive hunger', 'weight loss', 'weight gain',
+  'night sweats', 'hot flashes', 'cold intolerance', 'heat intolerance'
 ];
 
 export default function SymptomCheckerPage() {
@@ -27,7 +36,7 @@ export default function SymptomCheckerPage() {
   const suggestions = useMemo(() => {
     if (!symptoms || symptoms.length < 2) return [];
     const searchTerm = symptoms.toLowerCase();
-    return COMMON_SYMPTOMS.filter(s => s.includes(searchTerm)).slice(0, 5);
+    return COMMON_SYMPTOMS.filter(s => s.toLowerCase().includes(searchTerm)).slice(0, 8);
   }, [symptoms]);
 
   const handleCheck = () => {

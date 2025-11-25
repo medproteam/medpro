@@ -77,7 +77,6 @@ export default function VitalSignsPage() {
 
       if (error) throw error;
 
-      // Log activity
       await supabase.from('activity_logs').insert([{
         user_address: address,
         activity_type: 'vital_sign',
