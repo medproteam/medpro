@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { wagmiConfig } from '@/lib/wagmiConfig';
 import Index from "./pages/Index";
 import HomePage from "./pages/HomePage";
+import PremiumPage from "./pages/PremiumPage";
 import SignupPage from "./pages/SignupPage";
 import LoginWalletPage from "./pages/LoginWalletPage";
 import AIChatPage from "./pages/AIChatPage";
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/medical-dictionary" element={<MedicalDictionaryPage />} />
             <Route path="/health-quiz" element={<HealthQuizPage />} />
+            <Route path="/premium" element={<PremiumPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

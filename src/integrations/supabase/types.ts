@@ -154,6 +154,42 @@ export type Database = {
         }
         Relationships: []
       }
+      premium_subscriptions: {
+        Row: {
+          active: boolean
+          amount_paid: number
+          created_at: string
+          end_date: string
+          id: string
+          start_date: string
+          subscription_type: string
+          transaction_hash: string
+          user_address: string
+        }
+        Insert: {
+          active?: boolean
+          amount_paid: number
+          created_at?: string
+          end_date: string
+          id?: string
+          start_date?: string
+          subscription_type: string
+          transaction_hash: string
+          user_address: string
+        }
+        Update: {
+          active?: boolean
+          amount_paid?: number
+          created_at?: string
+          end_date?: string
+          id?: string
+          start_date?: string
+          subscription_type?: string
+          transaction_hash?: string
+          user_address?: string
+        }
+        Relationships: []
+      }
       user_profiles: {
         Row: {
           allergies: string[] | null
