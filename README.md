@@ -12,7 +12,7 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 - 24/7 conversational AI for health guidance
 - Personalized health recommendations
 - Natural language understanding
-- Medical dictionary with 170+ terms
+- Medical dictionary with 170+ terms (trial then premium)
 - Health quiz with daily streaks
 
 ### 💊 Smart Medication Tracking
@@ -27,17 +27,36 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 - AI-powered health analytics
 - Historical tracking and trends
 
+### 💎 Premium Features (CAMP Token Payment)
+- **Subscription Plans**: Monthly, Quarterly, and Yearly options
+- **Appointment Booking**: Book doctor appointments (1 free trial, then premium)
+- **Medical Dictionary**: Comprehensive medical terms reference (1 free access)
+- **Advanced Analytics**: Deep health insights and trends
+- **Priority Support**: Faster response times
+- **Ad-Free Experience**: Uninterrupted health management
+
+### 🎁 Bonanza Rewards System
+- Random CAMP token rewards for active users
+- Rewards up to 0.0005 CAMP
+- Earned for various activities:
+  - Daily login streaks
+  - Health tracking milestones
+  - Medication adherence
+  - Profile updates
+- Instant claim to wallet
+
 ### 🔐 Blockchain Security
 - Health data encrypted and secured on Camp Network
 - Decentralized storage for privacy
 - Immutable health records
 - Smart contract-based access control
+- On-chain payment verification
 
 ### 📱 Multi-Channel Access
 - Responsive web application
 - Voice commands support
 - Doctor messaging system
-- Appointment booking
+- Premium appointment system
 
 ### 📈 Health Analytics
 - Visualize health trends over time
@@ -60,13 +79,15 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 - **Network**: Camp Network Testnet (Chain ID: 123420001114)
 - **Web3 Library**: Wagmi v3 + Viem for wallet connections
 - **Smart Contracts**: Solidity ^0.8.20
-- **Contract Address**: `0x37a487D193F7717206762Ec0B3c247A2C8C64b15`
+- **HealthRecords Contract**: `0x37a487D193F7717206762Ec0B3c247A2C8C64b15`
+- **Payment System**: Native CAMP token payments
+- **Transaction Tracking**: On-chain subscription verification
 
 ### Backend & Database
-- **Database**: PostgreSQL via Supabase
+- **Database**: PostgreSQL with advanced features
 - **Serverless Functions**: Deno-based edge functions
 - **Authentication**: Wallet-based auth with JWT
-- **Real-time**: Supabase Realtime for live updates
+- **Real-time**: Real-time updates for live data
 - **Storage**: Encrypted health data storage
 
 ### AI & ML
@@ -80,6 +101,7 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 - `health-analytics` - Health data analysis and insights
 - `voice-to-text` - Voice input processing
 - `text-to-speech` - Voice output generation
+- `create-bonanza-rewards` - Random reward distribution system
 
 ## 🚀 Getting Started
 
@@ -122,6 +144,26 @@ The app automatically prompts users to add Camp Network when they connect their 
 2. Add network manually with the details above
 3. Get testnet CAMP from the [faucet](https://faucet.campnetwork.xyz/)
 
+## 💰 Premium Payment System
+
+### How It Works
+1. **Connect Wallet**: Users connect their Web3 wallet
+2. **Choose Plan**: Select from Monthly, Quarterly, or Yearly subscriptions
+3. **Pay with CAMP**: Secure payment using CAMP tokens
+4. **Instant Access**: Premium features unlock immediately
+5. **On-Chain Verification**: All subscriptions recorded on blockchain
+
+### Pricing (Testnet)
+- **Monthly**: 0.01 CAMP (30 days)
+- **Quarterly**: 0.025 CAMP (90 days) - Best value
+- **Yearly**: 0.08 CAMP (365 days) - Maximum savings
+
+### Feature Access Control
+- **Free Tier**: Limited access to core features
+- **Trial Features**: 1 free use of appointments and medical dictionary
+- **Premium Tier**: Unlimited access to all features
+- **Bonanza Rewards**: Available to all users
+
 ## 📱 Mobile Web3 Wallet Support
 
 MEDPRO works with all EVM-compatible wallets:
@@ -137,7 +179,7 @@ MEDPRO works with all EVM-compatible wallets:
 
 ### Deployed Contracts
 - **HealthRecords**: `0x37a487D193F7717206762Ec0B3c247A2C8C64b15`
-- **AdherenceToken**: [Gamification token for adherence rewards]
+- **AdherenceToken**: Gamification token for adherence rewards
 
 ### Contract Features
 - Health profile management with encrypted data
@@ -145,6 +187,7 @@ MEDPRO works with all EVM-compatible wallets:
 - Vital signs recording
 - Provider authorization system
 - Adherence reward tokens with streak tracking
+- Premium subscription payments
 
 See `contracts/` directory for full smart contract code.
 
@@ -157,15 +200,23 @@ medpro/
 ├── src/
 │   ├── assets/         # Images and media
 │   ├── components/     # React components
-│   │   ├── ui/        # shadcn/ui components
-│   │   └── ...        # Feature components
+│   │   ├── ui/        # UI components
+│   │   ├── CampPayment.tsx      # CAMP payment component
+│   │   ├── BonanzaNotification.tsx  # Reward notifications
+│   │   └── PremiumGate.tsx      # Access control
 │   ├── config/        # Configuration files
 │   ├── hooks/         # Custom React hooks
-│   ├── integrations/  # Supabase integration
+│   │   ├── usePremiumStatus.ts   # Premium subscription hook
+│   │   └── useFeatureAccess.ts   # Feature access control
+│   ├── integrations/  # Database integration
 │   ├── lib/           # Utility functions
 │   └── pages/         # Page components
+│       ├── PremiumPage.tsx       # Premium subscription page
+│       ├── AppointmentsPage.tsx  # Appointments (trial + premium)
+│       └── MedicalDictionaryPage.tsx  # Dictionary (trial + premium)
 ├── supabase/
 │   ├── functions/     # Edge functions
+│   │   └── create-bonanza-rewards/  # Reward system
 │   └── migrations/    # Database migrations
 └── ...
 ```
@@ -188,8 +239,9 @@ Patient nonadherence to treatment plans affects up to 40% of patients. MEDPRO ad
 - Automating medication reminders
 - Offering clear symptom checking and health guidance
 - Securing health data on blockchain
-- Improving patient engagement through gamification
+- Improving patient engagement through gamification and rewards
 - Enabling easy doctor-patient communication
+- Creating sustainable monetization through premium features
 
 ### Innovation
 - **AI + Web3**: Combines AI healthcare assistance with blockchain security
@@ -197,7 +249,19 @@ Patient nonadherence to treatment plans affects up to 40% of patients. MEDPRO ad
 - **Decentralized Health Records**: Patient-owned, blockchain-secured data
 - **Real-Time Support**: 24/7 AI assistant for immediate health guidance
 - **Gamification**: Reward system for medication adherence
+- **CAMP Token Integration**: Native payment system with on-chain verification
+- **Bonanza Rewards**: Random micro-rewards to boost user engagement
+- **Freemium Model**: Trial access with premium upgrades
 - **Comprehensive**: Full health management ecosystem in one platform
+
+### Technical Highlights
+- Wallet-based authentication (no passwords needed)
+- On-chain subscription tracking
+- Real-time payment verification
+- Automated reward distribution
+- Feature-level access control
+- Trial usage tracking
+- Premium status management
 
 ## 📄 License
 

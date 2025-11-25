@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAccount } from 'wagmi';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
+import { PremiumGate } from '@/components/PremiumGate';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,8 +12,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Calendar, MessageSquare, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import { useFeatureAccess } from '@/hooks/useFeatureAccess';
 
 export default function AppointmentsPage() {
+  const { isConnected } = useAccount();
+  const navigate = useNavigate();
+  const { hasAccess, usageCount, isLoading, isPremium, trackUsage } = useFeatureAccess('appointments', 1);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [showMessageForm, setShowMessageForm] = useState(false);
   const [bookingData, setBookingData] = useState({
@@ -23,19 +30,56 @@ export default function AppointmentsPage() {
     message: '',
   });
 
-  const handleBookAppointment = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (!isConnected) {
+      toast.error('Please connect your wallet first');
+      navigate('/');
+    }
+  }, [isConnected, navigate]);
+
+  const handleBookAppointment = async (e: React.FormEvent) => {
     e.preventDefault();
+    await trackUsage();
     toast.success('Appointment request sent! A doctor will confirm shortly.');
     setBookingData({ date: '', time: '', reason: '' });
     setShowBookingForm(false);
   };
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
+    await trackUsage();
     toast.success('Message sent to medical team!');
     setMessageData({ subject: '', message: '' });
     setShowMessageForm(false);
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background pb-20">
+        <Header />
+        <main className="container px-4 py-8 mx-auto">
+          <div className="flex items-center justify-center h-96">
+            <div className="animate-pulse text-muted-foreground">Loading...</div>
+          </div>
+        </main>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  if (!hasAccess && !isPremium) {
+    return (
+      <>
+        <Header />
+        <PremiumGate
+          usageCount={usageCount}
+          maxFreeUsage={1}
+          featureName="Appointments"
+        />
+        <BottomNav />
+      </>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pb-20">
