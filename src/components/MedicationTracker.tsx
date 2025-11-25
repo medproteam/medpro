@@ -47,7 +47,7 @@ export function MedicationTracker() {
       const { data, error } = await supabase
         .from('medications')
         .select('*')
-        .eq('user_address', address.toLowerCase())
+        .eq('user_address', address)
         .eq('active', true)
         .order('created_at', { ascending: false });
 
@@ -75,7 +75,7 @@ export function MedicationTracker() {
       const { error } = await supabase
         .from('medications')
         .insert([{
-          user_address: address.toLowerCase(),
+          user_address: address,
           name: newMed.name,
           dosage: newMed.dosage,
           frequency: newMed.frequency,
@@ -106,7 +106,7 @@ export function MedicationTracker() {
         .from('medication_logs')
         .insert([{
           medication_id: medicationId,
-          user_address: address.toLowerCase(),
+          user_address: address,
           status,
           taken_at: new Date().toISOString()
         }]);
