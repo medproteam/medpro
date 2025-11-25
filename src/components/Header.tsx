@@ -31,6 +31,7 @@ export function Header({ autoOpenWallet }: HeaderProps = {}) {
     ...(isConnected ? [
       { href: '/dashboard', label: 'Dashboard' },
       { href: '/vital-signs', label: 'Vital Signs' },
+      { href: '/appointments', label: 'Appointments' },
       { href: '/activity-history', label: 'Activity' },
     ] : []),
   ];
