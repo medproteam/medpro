@@ -65,16 +65,15 @@ Always be empathetic, clear, and encouraging. Never diagnose conditions or repla
       const data = await response.json();
       aiResponse = data.choices[0].message.content;
     } else {
-      // Use Lovable AI (default)
-      const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-      if (!LOVABLE_API_KEY) {
-        throw new Error('Lovable API key not configured');
+      const AI_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+      if (!AI_API_KEY) {
+        throw new Error('AI API key not configured');
       }
 
       const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+          'Authorization': `Bearer ${AI_API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -104,7 +103,7 @@ Always be empathetic, clear, and encouraging. Never diagnose conditions or repla
 
       if (!response.ok) {
         const error = await response.text();
-        console.error('Lovable AI error:', error);
+        console.error('AI error:', error);
         throw new Error('Failed to get response from AI');
       }
 
