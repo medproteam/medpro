@@ -42,20 +42,60 @@ export default function SymptomCheckerPage() {
   const handleCheck = () => {
     if (!symptoms.trim()) return;
     
-    // Simulated results based on symptom input
     const possibleConditions = [
-      { name: 'Common Cold', probability: 75, color: 'text-medical-green' },
-      { name: 'Flu', probability: 60, color: 'text-yellow-500' },
-      { name: 'Tension Headache', probability: 85, color: 'text-medical-green' },
-      { name: 'Migraine', probability: 60, color: 'text-yellow-500' },
-      { name: 'Allergic Reaction', probability: 70, color: 'text-medical-green' },
-      { name: 'Gastritis', probability: 65, color: 'text-yellow-500' },
+      { 
+        name: 'Common Cold', 
+        probability: 75, 
+        color: 'text-medical-green',
+        description: 'A viral infection affecting your nose and throat. Usually harmless and symptoms improve within 7-10 days.',
+        selfCare: 'Rest, drink plenty of fluids, use over-the-counter pain relievers for aches, and gargle with salt water for sore throat.',
+        whenToSeek: 'If symptoms worsen after 7 days, fever above 101.3°F (38.5°C), or difficulty breathing.'
+      },
+      { 
+        name: 'Flu (Influenza)', 
+        probability: 60, 
+        color: 'text-yellow-500',
+        description: 'A contagious respiratory illness caused by flu viruses. More severe than common cold with body-wide symptoms.',
+        selfCare: 'Complete bed rest, stay hydrated, take fever reducers, and isolate yourself to prevent spreading to others.',
+        whenToSeek: 'High fever lasting more than 3 days, difficulty breathing, chest pain, or confusion.'
+      },
+      { 
+        name: 'Tension Headache', 
+        probability: 85, 
+        color: 'text-medical-green',
+        description: 'The most common type of headache, often caused by stress or muscle tension. Feels like a tight band around your head.',
+        selfCare: 'Apply warm compress to neck/shoulders, practice relaxation techniques, stay hydrated, and use over-the-counter pain medication.',
+        whenToSeek: 'If headaches become more frequent, severe, or are accompanied by vision changes or numbness.'
+      },
+      { 
+        name: 'Migraine', 
+        probability: 60, 
+        color: 'text-yellow-500',
+        description: 'A neurological condition causing intense throbbing pain, usually on one side of the head. Often accompanied by nausea and light sensitivity.',
+        selfCare: 'Rest in a dark, quiet room, apply cold compress to forehead, stay hydrated, and avoid triggers like bright lights or loud sounds.',
+        whenToSeek: 'First-time severe headache, headache with fever/stiff neck, or sudden change in headache pattern.'
+      },
+      { 
+        name: 'Allergic Reaction', 
+        probability: 70, 
+        color: 'text-medical-green',
+        description: 'Your immune system reacting to a normally harmless substance. Can cause sneezing, itching, rashes, or respiratory symptoms.',
+        selfCare: 'Identify and avoid the allergen, use antihistamine medications, keep skin moisturized for rashes, and use nasal rinses for nasal symptoms.',
+        whenToSeek: 'Difficulty breathing, swelling of face/lips/tongue, rapid pulse, or dizziness (signs of severe allergic reaction).'
+      },
+      { 
+        name: 'Gastritis', 
+        probability: 65, 
+        color: 'text-yellow-500',
+        description: 'Inflammation of the stomach lining causing burning pain, nausea, and indigestion. Often caused by stress, certain medications, or infection.',
+        selfCare: 'Eat smaller, more frequent meals, avoid spicy/acidic foods, reduce stress, stop smoking/drinking alcohol, and use antacids.',
+        whenToSeek: 'Severe abdominal pain, vomiting blood, black/tarry stools, or persistent symptoms despite treatment.'
+      },
     ];
     
-    // Select random conditions for variety
     const selectedConditions = possibleConditions
       .sort(() => Math.random() - 0.5)
-      .slice(0, 2);
+      .slice(0, 3);
     
     setResults({
       symptom: symptoms,
@@ -140,33 +180,56 @@ export default function SymptomCheckerPage() {
                   </div>
                 </div>
 
-                {/* Possible Causes */}
                 <div>
-                  <h4 className="font-semibold mb-3">Possible Causes (Disclaimer)</h4>
-                  <div className="space-y-3">
+                  <h4 className="font-semibold mb-3">Possible Causes</h4>
+                  <div className="space-y-6">
                     {results.conditions.map((condition: any, i: number) => (
-                      <div key={i} className="space-y-2">
+                      <Card key={i} className="p-4 space-y-3 border-l-4" style={{ borderLeftColor: condition.probability > 70 ? '#4ade80' : '#f59e0b' }}>
                         <div className="flex items-center justify-between">
-                          <span className="font-medium">{condition.name}</span>
-                          <Activity className={`w-5 h-5 ${condition.color}`} />
+                          <span className="font-semibold text-base">{condition.name}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">{condition.probability}%</span>
+                            <Activity className={`w-5 h-5 ${condition.color}`} />
+                          </div>
                         </div>
                         <Progress value={condition.probability} className="h-2" />
-                      </div>
+                        
+                        <div className="space-y-2 text-sm">
+                          <div>
+                            <p className="font-medium text-foreground mb-1">What is this?</p>
+                            <p className="text-muted-foreground">{condition.description}</p>
+                          </div>
+                          
+                          <div>
+                            <p className="font-medium text-foreground mb-1">Self-Care Tips</p>
+                            <p className="text-muted-foreground">{condition.selfCare}</p>
+                          </div>
+                          
+                          <div className="bg-orange-500/10 border border-orange-500/20 rounded p-2">
+                            <p className="font-medium text-orange-600 mb-1">When to See a Doctor</p>
+                            <p className="text-sm text-muted-foreground">{condition.whenToSeek}</p>
+                          </div>
+                        </div>
+                      </Card>
                     ))}
                   </div>
                 </div>
 
-                {/* Next Steps */}
                 <div className="space-y-3 pt-4 border-t">
-                  <h4 className="font-semibold">Next Steps</h4>
-                  <Button className="w-full bg-medical-cyan hover:bg-medical-cyan/90 text-white flex items-center gap-2">
-                    <ThermometerSun className="w-5 h-5" />
-                    Book a Doctor's Appointment
-                  </Button>
-                  <p className="text-sm text-muted-foreground flex items-center gap-2">
-                    <Activity className="w-4 h-4" />
-                    Monitor Symptoms at Home
-                  </p>
+                  <h4 className="font-semibold">Recommended Next Steps</h4>
+                  <div className="space-y-2">
+                    <Button 
+                      onClick={() => navigate('/appointments')}
+                      className="w-full bg-medical-cyan hover:bg-medical-cyan/90 text-white flex items-center justify-center gap-2"
+                    >
+                      <ThermometerSun className="w-5 h-5" />
+                      Book Doctor Appointment
+                    </Button>
+                    <p className="text-sm text-muted-foreground flex items-center gap-2 px-2">
+                      <Activity className="w-4 h-4" />
+                      Track your symptoms daily and note any changes
+                    </p>
+                  </div>
                 </div>
               </Card>
             </motion.div>

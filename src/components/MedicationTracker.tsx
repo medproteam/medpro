@@ -65,7 +65,7 @@ export function MedicationTracker() {
       return;
     }
 
-    if (!newMed.name || !newMed.dosage || !newMed.frequency) {
+    if (!newMed.name || !newMed.dosage || !newMed.frequency || !newMed.time_of_day) {
       toast.error('Please fill in all required fields');
       return;
     }
@@ -179,7 +179,7 @@ export function MedicationTracker() {
                 />
               </div>
               <div>
-                <Label htmlFor="time">Time of Day</Label>
+                <Label htmlFor="time">Time of Day *</Label>
                 <Input
                   id="time"
                   placeholder="e.g., Morning and Evening"
