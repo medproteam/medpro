@@ -38,6 +38,66 @@ export type Database = {
         }
         Relationships: []
       }
+      bonanza_rewards: {
+        Row: {
+          amount: number
+          claimed: boolean
+          claimed_at: string | null
+          created_at: string
+          id: string
+          reason: string
+          transaction_hash: string | null
+          user_address: string
+        }
+        Insert: {
+          amount: number
+          claimed?: boolean
+          claimed_at?: string | null
+          created_at?: string
+          id?: string
+          reason: string
+          transaction_hash?: string | null
+          user_address: string
+        }
+        Update: {
+          amount?: number
+          claimed?: boolean
+          claimed_at?: string | null
+          created_at?: string
+          id?: string
+          reason?: string
+          transaction_hash?: string | null
+          user_address?: string
+        }
+        Relationships: []
+      }
+      feature_usage: {
+        Row: {
+          created_at: string
+          feature_name: string
+          id: string
+          last_used_at: string
+          usage_count: number
+          user_address: string
+        }
+        Insert: {
+          created_at?: string
+          feature_name: string
+          id?: string
+          last_used_at?: string
+          usage_count?: number
+          user_address: string
+        }
+        Update: {
+          created_at?: string
+          feature_name?: string
+          id?: string
+          last_used_at?: string
+          usage_count?: number
+          user_address?: string
+        }
+        Relationships: []
+      }
       health_records: {
         Row: {
           created_at: string

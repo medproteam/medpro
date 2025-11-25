@@ -1,9 +1,14 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAccount } from 'wagmi';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { BottomNav } from '@/components/BottomNav';
+import { PremiumGate } from '@/components/PremiumGate';
 import { BookOpen, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
+import { useFeatureAccess } from '@/hooks/useFeatureAccess';
 
 const MEDICAL_TERMS = [
   { term: 'Abdomen', definition: 'The part of the body between the chest and pelvis containing digestive organs.' },
@@ -171,8 +176,26 @@ const MEDICAL_TERMS = [
 ];
 
 export default function MedicalDictionaryPage() {
+  const { isConnected } = useAccount();
+  const navigate = useNavigate();
+  const { hasAccess, usageCount, isLoading, isPremium, trackUsage } = useFeatureAccess('medical_dictionary', 1);
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [hasTracked, setHasTracked] = useState(false);
+
+  useEffect(() => {
+    if (!isConnected) {
+      toast.error('Please connect your wallet first');
+      navigate('/');
+    }
+  }, [isConnected, navigate]);
+
+  useEffect(() => {
+    if (hasAccess && !hasTracked && !isLoading) {
+      trackUsage();
+      setHasTracked(true);
+    }
+  }, [hasAccess, hasTracked, isLoading]);
 
   const suggestions = useMemo(() => {
     if (!searchTerm || searchTerm.length < 2) return [];
@@ -190,6 +213,44 @@ export default function MedicalDictionaryPage() {
               item.definition.toLowerCase().includes(search)
     );
   }, [searchTerm]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background pb-20">
+        <header className="bg-card border-b border-border p-4 sticky top-0 z-40 backdrop-blur-lg">
+          <h1 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
+            <BookOpen className="w-6 h-6 text-medical-cyan" />
+            Medical Dictionary
+          </h1>
+        </header>
+        <main className="container mx-auto px-4 py-6">
+          <div className="flex items-center justify-center h-96">
+            <div className="animate-pulse text-muted-foreground">Loading...</div>
+          </div>
+        </main>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  if (!hasAccess && !isPremium) {
+    return (
+      <>
+        <header className="bg-card border-b border-border p-4 sticky top-0 z-40 backdrop-blur-lg">
+          <h1 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
+            <BookOpen className="w-6 h-6 text-medical-cyan" />
+            Medical Dictionary
+          </h1>
+        </header>
+        <PremiumGate
+          usageCount={usageCount}
+          maxFreeUsage={1}
+          featureName="Medical Dictionary"
+        />
+        <BottomNav />
+      </>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pb-20">

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from 'wagmi';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { wagmiConfig } from '@/lib/wagmiConfig';
+import { BonanzaNotification } from '@/components/BonanzaNotification';
 import Index from "./pages/Index";
 import HomePage from "./pages/HomePage";
 import PremiumPage from "./pages/PremiumPage";
@@ -33,6 +34,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <BonanzaNotification />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
