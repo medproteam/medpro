@@ -7,13 +7,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Activity, Pill, Heart, FileText, TrendingUp, Calendar, User, Bell } from 'lucide-react';
+import { Activity, Pill, Heart, FileText, TrendingUp, Calendar, User, Bell, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { usePremiumStatus } from '@/hooks/usePremiumStatus';
+import { Badge } from '@/components/ui/badge';
 
 export default function DashboardPage() {
   const { address, isConnected } = useAccount();
   const navigate = useNavigate();
+  const { isPremium } = usePremiumStatus();
   const [profile, setProfile] = useState<any>(null);
   const [stats, setStats] = useState({
     medications: 0,
@@ -73,7 +76,7 @@ export default function DashboardPage() {
     { icon: Pill, label: 'Medications', href: '/medications', color: 'from-primary to-primary/70' },
     { icon: Activity, label: 'Record Vitals', href: '/vital-signs', color: 'from-secondary to-secondary/70' },
     { icon: FileText, label: 'AI Chat', href: '/ai-chat', color: 'from-accent to-accent/70' },
-    { icon: Heart, label: 'Health Library', href: '/health-library', color: 'from-medical-orange to-medical-orange/70' },
+    { icon: Heart, label: 'Premium', href: '/premium', color: 'from-medical-orange to-medical-orange/70' },
   ];
 
   const statCards = [
@@ -96,17 +99,33 @@ export default function DashboardPage() {
           {/* Welcome Section */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-bold mb-2">
+              <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
                 Welcome back, <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{profile?.full_name || 'User'}</span>
+                {isPremium && (
+                  <Badge variant="default" className="gap-1">
+                    <Crown className="w-3 h-3" />
+                    Premium
+                  </Badge>
+                )}
               </h1>
               <p className="text-muted-foreground">Here's your health overview</p>
             </div>
-            <Link to="/profile">
-              <Button variant="outline" className="gap-2">
-                <User className="w-4 h-4" />
-                Edit Profile
-              </Button>
-            </Link>
+            <div className="flex gap-2">
+              {!isPremium && (
+                <Link to="/premium">
+                  <Button className="gap-2">
+                    <Crown className="w-4 h-4" />
+                    Upgrade to Premium
+                  </Button>
+                </Link>
+              )}
+              <Link to="/profile">
+                <Button variant="outline" className="gap-2">
+                  <User className="w-4 h-4" />
+                  Edit Profile
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* Stats Grid */}
