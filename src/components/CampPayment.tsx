@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
-import { parseEther } from 'viem';
+import { BaseError, parseEther } from 'viem';
 import { campTestnet } from '@/config/campNetwork';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,25 +17,38 @@ interface CampPaymentProps {
   onSuccess?: () => void;
 }
 
-export const CampPayment = ({ 
-  amount, 
-  recipientAddress, 
-  subscriptionType, 
+export const CampPayment = ({
+  amount,
+  recipientAddress,
+  subscriptionType,
   durationDays,
-  onSuccess 
+  onSuccess,
 }: CampPaymentProps) => {
-  const { address } = useAccount();
-  const { sendTransaction, data: hash, isPending, error } = useSendTransaction();
-  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
+  const { address, chainId } = useAccount();
+  const {
+    sendTransaction,
+    data: hash,
+    isPending,
+    error,
+    reset,
+  } = useSendTransaction();
+  const {
+    isLoading: isConfirming,
+    isSuccess,
+  } = useWaitForTransactionReceipt({
     hash,
   });
   const hasRecordedRef = useRef(false);
 
   useEffect(() => {
-    if (error) {
-      console.error('Payment error:', error);
-      toast.error((error as any)?.message || 'Payment failed');
-    }
+    if (!error) return;
+
+    console.error('Payment error:', error);
+    const message =
+      (error as BaseError).shortMessage ||
+      (error as Error).message ||
+      'Payment failed';
+    toast.error(message);
   }, [error]);
 
   const handlePayment = () => {
@@ -44,17 +57,25 @@ export const CampPayment = ({
       return;
     }
 
+    if (chainId !== campTestnet.id) {
+      toast.error('Please switch your wallet to Camp Network Testnet before paying');
+      return;
+    }
+
     try {
       hasRecordedRef.current = false;
+      reset();
       sendTransaction({
-        account: address as `0x${string}`,
-        chainId: campTestnet.id,
         to: recipientAddress as `0x${string}`,
         value: parseEther(amount),
       });
-    } catch (e: any) {
+    } catch (e) {
       console.error('Payment error:', e);
-      toast.error(e?.message || 'Payment failed');
+      const message =
+        (e as BaseError).shortMessage ||
+        (e as Error).message ||
+        'Payment failed';
+      toast.error(message);
     }
   };
 
@@ -83,14 +104,22 @@ export const CampPayment = ({
 
         toast.success('Payment successful. Premium features unlocked.');
         onSuccess?.();
-      } catch (e: any) {
+      } catch (e) {
         console.error('Error recording subscription:', e);
         toast.error('Payment recorded but subscription update failed');
       }
     };
 
     recordSubscription();
-  }, [isSuccess, hash, address, durationDays, subscriptionType, amount, onSuccess]);
+  }, [
+    isSuccess,
+    hash,
+    address,
+    durationDays,
+    subscriptionType,
+    amount,
+    onSuccess,
+  ]);
 
   const isProcessing = isPending || isConfirming;
 
