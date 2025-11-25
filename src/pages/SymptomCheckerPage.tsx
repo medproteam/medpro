@@ -31,12 +31,26 @@ export default function SymptomCheckerPage() {
   }, [symptoms]);
 
   const handleCheck = () => {
-    // Simulated results
+    if (!symptoms.trim()) return;
+    
+    // Simulated results based on symptom input
+    const possibleConditions = [
+      { name: 'Common Cold', probability: 75, color: 'text-medical-green' },
+      { name: 'Flu', probability: 60, color: 'text-yellow-500' },
+      { name: 'Tension Headache', probability: 85, color: 'text-medical-green' },
+      { name: 'Migraine', probability: 60, color: 'text-yellow-500' },
+      { name: 'Allergic Reaction', probability: 70, color: 'text-medical-green' },
+      { name: 'Gastritis', probability: 65, color: 'text-yellow-500' },
+    ];
+    
+    // Select random conditions for variety
+    const selectedConditions = possibleConditions
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 2);
+    
     setResults({
-      conditions: [
-        { name: 'Tension Headache', probability: 85, color: 'text-medical-green' },
-        { name: 'Migraine', probability: 60, color: 'text-yellow-500' },
-      ],
+      symptom: symptoms,
+      conditions: selectedConditions,
     });
   };
 
