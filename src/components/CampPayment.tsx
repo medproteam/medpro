@@ -39,8 +39,7 @@ export const CampPayment = ({
     try {
       setIsPaying(true);
 
-      // Send CAMP tokens
-      sendTransaction({
+      await sendTransaction({
         to: recipientAddress as `0x${string}`,
         value: parseEther(amount),
       });
@@ -52,11 +51,9 @@ export const CampPayment = ({
     }
   };
 
-  // Handle successful payment
-  if (isSuccess && hash && !isPaying) {
+  if (isSuccess && hash && isPaying) {
     (async () => {
       try {
-        // Record subscription in database
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + durationDays);
 
