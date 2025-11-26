@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Gift, X, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { MEDPRO_CONTRACT_ADDRESS } from '@/config/campNetwork';
+// No longer needed - Bonanza sends CAMP directly to user's address
 
 export const BonanzaNotification = () => {
   const { address } = useAccount();
