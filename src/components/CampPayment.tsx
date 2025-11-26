@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useAccount, useWriteContract, useWaitForTransactionReceipt, useSendTransaction, useReadContract } from 'wagmi';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useSendTransaction } from 'wagmi';
 import { BaseError, parseEther } from 'viem';
 import { campTestnet, MEDPRO_CONTRACT_ADDRESS, MEDPRO_PAYMENT_ADDRESS } from '@/config/campNetwork';
 import { HEALTH_RECORDS_ABI } from '@/config/healthRecordsABI';
@@ -45,17 +45,8 @@ export const CampPayment = ({
     reset: resetTransfer,
   } = useSendTransaction();
   
-  // Check if contract is deployed by trying to read from it
-  const { data: contractCode, isError: contractCheckError } = useReadContract({
-    address: MEDPRO_CONTRACT_ADDRESS as `0x${string}`,
-    abi: HEALTH_RECORDS_ABI,
-    functionName: 'hasActiveSubscription',
-    args: [address as `0x${string}`],
-    chainId: campTestnet.id,
-    query: {
-      enabled: !!address,
-    },
-  });
+  // Using smart contract payments with fallback to direct wallet transfer
+
   
   const hash = contractHash || transferHash;
   const isPending = isContractPending || isTransferPending;
@@ -80,7 +71,13 @@ export const CampPayment = ({
       (error as Error).message ||
       'Payment failed';
     toast.error(`Transaction failed: ${message}`);
-  }, [error]);
+
+    // If contract payment failed, switch to direct transfer fallback
+    if (!useDirectTransfer && contractError) {
+      toast.info('Switching to direct wallet transfer...');
+      setUseDirectTransfer(true);
+    }
+  }, [error, contractError, useDirectTransfer]);
 
   const handlePayment = async () => {
     if (!address) {
@@ -98,7 +95,7 @@ export const CampPayment = ({
       reset();
       
       // Try contract payment first if not forcing direct transfer
-      if (!useDirectTransfer && !contractCheckError) {
+      if (!useDirectTransfer) {
         console.log('Initiating smart contract payment:', {
           contract: MEDPRO_CONTRACT_ADDRESS,
           value: amount,
@@ -201,11 +198,11 @@ export const CampPayment = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {contractCheckError && (
+        {useDirectTransfer && (
           <Alert>
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              Smart contract not yet deployed. Using direct wallet transfer as payment method.
+              Smart contract payment had an issue. Using direct wallet transfer as fallback.
             </AlertDescription>
           </Alert>
         )}
@@ -255,7 +252,7 @@ export const CampPayment = ({
         )}
 
         <p className="text-xs text-muted-foreground text-center">
-          {useDirectTransfer || contractCheckError 
+          {useDirectTransfer 
             ? `Payment will be sent directly to ${MEDPRO_PAYMENT_ADDRESS.slice(0, 6)}...${MEDPRO_PAYMENT_ADDRESS.slice(-4)}`
             : 'Payment will be processed via smart contract on Camp Network Testnet'
           }
