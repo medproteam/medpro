@@ -27,6 +27,8 @@ export const campTestnet = defineChain({
   testnet: true,
 });
 
-// Normal wallet address to receive CAMP payments (not the HealthRecords contract)
-// TODO: Replace this with your actual wallet address
-export const MEDPRO_PAYMENT_ADDRESS = '0xYourWalletAddressHere' as const;
+// Wallet address to receive CAMP payments for premium subscriptions
+export const MEDPRO_PAYMENT_ADDRESS = '0xadc1866530B221AD80D77ba97EFa6888C1277418' as const;
+
+// HealthRecords contract (for reference only - not used for payments)
+export const MEDPRO_CONTRACT_ADDRESS = '0x37a487D193F7717206762Ec0B3c247A2C8C64b15' as const;
