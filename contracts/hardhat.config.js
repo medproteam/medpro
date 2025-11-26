@@ -1,6 +1,10 @@
+require('dotenv').config();
 require('@nomicfoundation/hardhat-toolbox');
 
-const PRIVATE_KEY = process.env.PRIVATE_KEY || '0x0000000000000000000000000000000000000000000000000000000000000000';
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+if (!PRIVATE_KEY || PRIVATE_KEY === '0x0000000000000000000000000000000000000000000000000000000000000000') {
+  throw new Error('PRIVATE_KEY is not set correctly in contracts/.env');
+}
 
 module.exports = {
   solidity: {
