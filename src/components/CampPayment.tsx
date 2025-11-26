@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { BaseError, parseEther } from 'viem';
-import { campTestnet } from '@/config/campNetwork';
+import { campTestnet, MEDPRO_CONTRACT_ADDRESS } from '@/config/campNetwork';
+import { HEALTH_RECORDS_ABI } from '@/config/healthRecordsABI';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
@@ -11,7 +12,6 @@ import { supabase } from '@/integrations/supabase/client';
 
 interface CampPaymentProps {
   amount: string;
-  recipientAddress: string;
   subscriptionType: string;
   durationDays: number;
   onSuccess?: () => void;
@@ -19,19 +19,18 @@ interface CampPaymentProps {
 
 export const CampPayment = ({
   amount,
-  recipientAddress,
   subscriptionType,
   durationDays,
   onSuccess,
 }: CampPaymentProps) => {
   const { address, chainId } = useAccount();
   const {
-    sendTransaction,
+    writeContract,
     data: hash,
     isPending,
     error,
     reset,
-  } = useSendTransaction();
+  } = useWriteContract();
   const {
     isLoading: isConfirming,
     isSuccess,
@@ -67,17 +66,23 @@ export const CampPayment = ({
       hasRecordedRef.current = false;
       reset();
       
-      console.log('Initiating payment:', {
-        to: recipientAddress,
+      console.log('Initiating smart contract payment:', {
+        contract: MEDPRO_CONTRACT_ADDRESS,
         value: amount,
+        durationDays,
+        subscriptionType,
         chainId,
         address,
       });
 
-      sendTransaction({
-        to: recipientAddress as `0x${string}`,
+      writeContract({
+        address: MEDPRO_CONTRACT_ADDRESS as `0x${string}`,
+        abi: HEALTH_RECORDS_ABI,
+        functionName: 'paySubscription',
+        args: [BigInt(durationDays), subscriptionType],
         value: parseEther(amount),
-        gas: BigInt(100000), // Explicit gas limit
+        chain: campTestnet,
+        account: address as `0x${string}`,
       });
     } catch (e) {
       console.error('Payment error:', e);

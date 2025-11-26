@@ -27,10 +27,22 @@ contract HealthRecords {
         uint256 updatedAt;
     }
     
+    struct Subscription {
+        uint256 amount;
+        uint256 startDate;
+        uint256 endDate;
+        string subscriptionType;
+        bool active;
+    }
+    
     mapping(address => HealthProfile) public profiles;
     mapping(address => MedicationSchedule[]) public medications;
     mapping(address => VitalRecord[]) public vitals;
     mapping(address => mapping(address => bool)) public authorizedProviders;
+    mapping(address => Subscription) public subscriptions;
+    
+    address public owner;
+    uint256 public totalRevenue;
     
     event ProfileCreated(address indexed patient, uint256 timestamp);
     event ProfileUpdated(address indexed patient, uint256 timestamp);
@@ -38,6 +50,12 @@ contract HealthRecords {
     event VitalRecorded(address indexed patient, uint256 timestamp);
     event ProviderAuthorized(address indexed patient, address indexed provider);
     event ProviderRevoked(address indexed patient, address indexed provider);
+    event SubscriptionPaid(address indexed user, uint256 amount, uint256 endDate, string subscriptionType);
+    event FundsWithdrawn(address indexed owner, uint256 amount);
+    
+    constructor() {
+        owner = msg.sender;
+    }
     
     modifier onlyPatient() {
         require(profiles[msg.sender].patient == msg.sender, "Not authorized");
@@ -161,5 +179,63 @@ contract HealthRecords {
         returns (uint256) 
     {
         return vitals[_patient].length;
+    }
+    
+    // Payable function to accept subscription payments
+    function paySubscription(uint256 _durationDays, string memory _subscriptionType) 
+        external 
+        payable 
+    {
+        require(msg.value > 0, "Payment required");
+        require(_durationDays > 0, "Invalid duration");
+        
+        uint256 endDate = block.timestamp + (_durationDays * 1 days);
+        
+        subscriptions[msg.sender] = Subscription({
+            amount: msg.value,
+            startDate: block.timestamp,
+            endDate: endDate,
+            subscriptionType: _subscriptionType,
+            active: true
+        });
+        
+        totalRevenue += msg.value;
+        
+        emit SubscriptionPaid(msg.sender, msg.value, endDate, _subscriptionType);
+    }
+    
+    // Check if user has active subscription
+    function hasActiveSubscription(address _user) 
+        external 
+        view 
+        returns (bool) 
+    {
+        return subscriptions[_user].active && 
+               subscriptions[_user].endDate > block.timestamp;
+    }
+    
+    // Get subscription details
+    function getSubscription(address _user) 
+        external 
+        view 
+        returns (Subscription memory) 
+    {
+        return subscriptions[_user];
+    }
+    
+    // Owner can withdraw collected funds
+    function withdraw() external {
+        require(msg.sender == owner, "Only owner");
+        uint256 balance = address(this).balance;
+        require(balance > 0, "No funds");
+        
+        payable(owner).transfer(balance);
+        
+        emit FundsWithdrawn(owner, balance);
+    }
+    
+    // Fallback to receive CAMP
+    receive() external payable {
+        totalRevenue += msg.value;
     }
 }
