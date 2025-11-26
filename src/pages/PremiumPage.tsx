@@ -10,7 +10,7 @@ import { usePremiumStatus } from '@/hooks/usePremiumStatus';
 import { toast } from 'sonner';
 import { Crown, Check, Zap, Shield, Brain, TrendingUp, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { MEDPRO_CONTRACT_ADDRESS } from '@/config/campNetwork';
+import { MEDPRO_PAYMENT_ADDRESS } from '@/config/campNetwork';
 
 export default function PremiumPage() {
   const { isConnected } = useAccount();
@@ -262,7 +262,7 @@ export default function PremiumPage() {
                       {selectedPlan === plan.id ? (
                         <CampPayment
                           amount={plan.price}
-                          recipientAddress={MEDPRO_CONTRACT_ADDRESS}
+                          recipientAddress={MEDPRO_PAYMENT_ADDRESS}
                           subscriptionType={plan.id}
                           durationDays={plan.duration}
                           onSuccess={() => {
@@ -296,7 +296,7 @@ export default function PremiumPage() {
             <CardContent className="space-y-2 text-sm text-muted-foreground">
               <p>✓ All payments processed on Camp Network Testnet</p>
               <p>✓ Your subscription is recorded on-chain for transparency</p>
-              <p>✓ Payments sent to HealthRecords contract: {MEDPRO_CONTRACT_ADDRESS.slice(0, 10)}...{MEDPRO_CONTRACT_ADDRESS.slice(-8)}</p>
+              <p>✓ Payments sent securely to: {MEDPRO_PAYMENT_ADDRESS.slice(0, 10)}...{MEDPRO_PAYMENT_ADDRESS.slice(-8)}</p>
               <p>✓ No recurring charges - you control when to renew</p>
             </CardContent>
           </Card>
