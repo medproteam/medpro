@@ -30,5 +30,5 @@ export const campTestnet = defineChain({
 // Wallet address to receive CAMP payments for premium subscriptions
 export const MEDPRO_PAYMENT_ADDRESS = '0xadc1866530B221AD80D77ba97EFa6888C1277418' as const;
 
-// HealthRecords contract (for reference only - not used for payments)
-export const MEDPRO_CONTRACT_ADDRESS = '0x37a487D193F7717206762Ec0B3c247A2C8C64b15' as const;
+// HealthRecords contract - deployed and ready for payments
+export const MEDPRO_CONTRACT_ADDRESS = '0x6fe26955bd2b985D522fDfb8f6fbD227Bb74104e' as const;
