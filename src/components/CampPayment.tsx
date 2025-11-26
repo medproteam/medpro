@@ -46,12 +46,13 @@ export const CampPayment = ({
     console.error('Payment error:', error);
     const message =
       (error as BaseError).shortMessage ||
+      (error as BaseError).details ||
       (error as Error).message ||
       'Payment failed';
-    toast.error(message);
+    toast.error(`Transaction failed: ${message}`);
   }, [error]);
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (!address) {
       toast.error('Please connect your wallet first');
       return;
@@ -65,17 +66,27 @@ export const CampPayment = ({
     try {
       hasRecordedRef.current = false;
       reset();
+      
+      console.log('Initiating payment:', {
+        to: recipientAddress,
+        value: amount,
+        chainId,
+        address,
+      });
+
       sendTransaction({
         to: recipientAddress as `0x${string}`,
         value: parseEther(amount),
+        gas: BigInt(100000), // Explicit gas limit
       });
     } catch (e) {
       console.error('Payment error:', e);
       const message =
         (e as BaseError).shortMessage ||
+        (e as BaseError).message ||
         (e as Error).message ||
         'Payment failed';
-      toast.error(message);
+      toast.error(`Transaction failed: ${message}`);
     }
   };
 
