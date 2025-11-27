@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
-import medproLogo from '@/assets/medpro-logo.png';
+import medproLogo from '@/assets/medpro-logo-final.png';
 
 const healthFacts = [
   "💧 Drinking water first thing in the morning helps activate your internal organs.",
