@@ -3,7 +3,7 @@ import { useAccount, useConnect, useDisconnect, useSwitchChain } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Wallet, ExternalLink, Activity } from 'lucide-react';
+import { Wallet, ExternalLink, Activity, Chrome } from 'lucide-react';
 import { campTestnet } from '@/config/campNetwork';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
@@ -161,19 +161,25 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
           
           <div className="space-y-3 mt-4">
             {connectors.map((connector, index) => {
-              // Determine styling based on connector name
+              // Determine styling and icon based on connector name
               const getConnectorStyle = (name: string) => {
                 const lowerName = name.toLowerCase();
                 if (lowerName.includes('metamask')) {
-                  return 'from-orange-500 to-orange-600';
+                  return { gradient: 'from-orange-500 to-orange-600', icon: '🦊' };
                 } else if (lowerName.includes('okx')) {
-                  return 'from-slate-800 to-slate-900';
+                  return { gradient: 'from-slate-800 to-slate-900', icon: '⭕' };
+                } else if (lowerName.includes('coinbase')) {
+                  return { gradient: 'from-blue-600 to-blue-700', icon: '💠' };
+                } else if (lowerName.includes('trust')) {
+                  return { gradient: 'from-blue-500 to-cyan-500', icon: '🛡️' };
                 } else if (lowerName.includes('injected') || lowerName.includes('browser')) {
-                  return 'from-blue-500 to-purple-600';
+                  return { gradient: 'from-blue-500 to-purple-600', icon: null };
                 } else {
-                  return 'from-primary to-secondary';
+                  return { gradient: 'from-primary to-secondary', icon: null };
                 }
               };
+
+              const style = getConnectorStyle(connector.name);
 
               return (
                 <motion.div
@@ -189,8 +195,16 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
                     className="w-full justify-between h-auto py-4 hover:border-primary hover:shadow-md transition-all"
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${getConnectorStyle(connector.name)} flex items-center justify-center`}>
-                        <Wallet className="w-5 h-5 text-white" />
+                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${style.gradient} flex items-center justify-center`}>
+                        {style.icon ? (
+                          <span className="text-xl">{style.icon}</span>
+                        ) : (
+                          connector.name.toLowerCase().includes('injected') ? (
+                            <Chrome className="w-5 h-5 text-white" />
+                          ) : (
+                            <Wallet className="w-5 h-5 text-white" />
+                          )
+                        )}
                       </div>
                       <span className="font-medium text-base">{connector.name}</span>
                     </div>

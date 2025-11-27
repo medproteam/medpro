@@ -1,21 +1,24 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAccount } from 'wagmi';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { BottomNav } from '@/components/BottomNav';
-import { Thermometer, Wind, Zap, Droplets, Sun, Camera, Leaf, Search, X } from 'lucide-react';
+import { Thermometer, Wind, Zap, Droplets, Activity, AlertCircle, Apple, Waves, Search, X } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const COMMON_SYMPTOMS = [
   { name: 'Fever', icon: Thermometer },
   { name: 'Cough', icon: Wind },
   { name: 'Fatigue', icon: Zap },
-  { name: 'Fatigue', icon: Zap },
+  { name: 'Headache', icon: AlertCircle },
+  { name: 'Nausea', icon: Waves },
+  { name: 'Body Aches', icon: Activity },
   { name: 'Rash', icon: Droplets },
-  { name: 'Sore Throat', icon: Sun },
-  { name: 'Nausea', icon: Camera },
-  { name: 'Rash', icon: Leaf },
+  { name: 'Loss of Appetite', icon: Apple },
 ];
 
 const SYMPTOM_SUGGESTIONS = [
@@ -27,9 +30,12 @@ const SYMPTOM_SUGGESTIONS = [
 ];
 
 export default function SymptomCheckerPage() {
+  const { isConnected } = useAccount();
   const [symptoms, setSymptoms] = useState('');
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState('');
   const navigate = useNavigate();
 
   const suggestions = useMemo(() => {
@@ -49,10 +55,44 @@ export default function SymptomCheckerPage() {
     setSelectedSymptoms(selectedSymptoms.filter(s => s !== symptom));
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (selectedSymptoms.length === 0 && !symptoms.trim()) return;
-    // TODO: Implement AI analysis
-    console.log('Analyzing symptoms:', [...selectedSymptoms, symptoms].filter(Boolean));
+    
+    if (!isConnected) {
+      toast.error('Please connect your wallet to analyze symptoms');
+      return;
+    }
+
+    setIsAnalyzing(true);
+    setAnalysisResult('');
+
+    try {
+      const allSymptoms = [...selectedSymptoms, symptoms].filter(Boolean);
+      const symptomText = allSymptoms.join(', ');
+      
+      const { data, error } = await supabase.functions.invoke('ai-health-chat', {
+        body: {
+          messages: [
+            {
+              role: 'user',
+              content: `I am experiencing these symptoms: ${symptomText}. Please provide a brief analysis of what these symptoms might indicate, possible conditions, and recommendations. Keep it under 200 words and remind me to consult a healthcare provider for proper diagnosis.`
+            }
+          ],
+          useOpenAI: false
+        }
+      });
+
+      if (error) throw error;
+
+      const result = data.response as string;
+      setAnalysisResult(result);
+      toast.success('Analysis complete');
+    } catch (error: any) {
+      console.error('Error analyzing symptoms:', error);
+      toast.error('Failed to analyze symptoms. Please try again.');
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -150,11 +190,19 @@ export default function SymptomCheckerPage() {
           {/* Analyze Button */}
           <Button
             onClick={handleAnalyze}
-            disabled={selectedSymptoms.length === 0 && !symptoms.trim()}
+            disabled={(selectedSymptoms.length === 0 && !symptoms.trim()) || isAnalyzing || !isConnected}
             className="w-full bg-primary hover:bg-primary/90 text-white py-6 text-lg rounded-full"
           >
-            Analyze Symptoms
+            {isAnalyzing ? 'Analyzing...' : 'Analyze Symptoms'}
           </Button>
+
+          {/* Analysis Result */}
+          {analysisResult && (
+            <Card className="p-6 bg-primary/5 border-primary/20">
+              <h3 className="text-lg font-semibold mb-3">Analysis Result</h3>
+              <p className="text-sm whitespace-pre-wrap leading-relaxed">{analysisResult}</p>
+            </Card>
+          )}
         </motion.div>
       </main>
 
