@@ -164,19 +164,33 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
               // Determine styling and icon based on connector name
               const getConnectorStyle = (name: string) => {
                 const lowerName = name.toLowerCase();
+
                 if (lowerName.includes('metamask')) {
                   return { gradient: 'from-orange-500 to-orange-600', icon: '🦊' };
-                } else if (lowerName.includes('okx')) {
-                  return { gradient: 'from-slate-800 to-slate-900', icon: '⭕' };
-                } else if (lowerName.includes('coinbase')) {
-                  return { gradient: 'from-blue-600 to-blue-700', icon: '💠' };
-                } else if (lowerName.includes('trust')) {
-                  return { gradient: 'from-blue-500 to-cyan-500', icon: '🛡️' };
-                } else if (lowerName.includes('injected') || lowerName.includes('browser')) {
-                  return { gradient: 'from-blue-500 to-purple-600', icon: null };
-                } else {
-                  return { gradient: 'from-primary to-secondary', icon: null };
                 }
+                if (lowerName.includes('phantom')) {
+                  return { gradient: 'from-violet-500 to-purple-600', icon: '👻' };
+                }
+                if (lowerName.includes('zerion') || lowerName.includes('serion')) {
+                  return { gradient: 'from-blue-500 to-indigo-500', icon: 'Z' };
+                }
+                if (lowerName.includes('okx')) {
+                  return { gradient: 'from-lime-500 to-lime-600', icon: 'OKX' };
+                }
+                if (lowerName.includes('unisat')) {
+                  return { gradient: 'from-amber-500 to-yellow-500', icon: '₿' };
+                }
+                if (lowerName.includes('coinbase')) {
+                  return { gradient: 'from-blue-600 to-blue-700', icon: 'C' };
+                }
+                if (lowerName.includes('trust')) {
+                  return { gradient: 'from-blue-500 to-cyan-500', icon: '🛡️' };
+                }
+                if (lowerName.includes('injected') || lowerName.includes('browser')) {
+                  return { gradient: 'from-blue-500 to-purple-600', icon: null };
+                }
+
+                return { gradient: 'from-primary to-secondary', icon: null };
               };
 
               const style = getConnectorStyle(connector.name);

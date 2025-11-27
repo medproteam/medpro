@@ -32,29 +32,35 @@ export default function NotificationsPage() {
     const loadSettings = async () => {
       if (!address) return;
 
-      const { data, error } = await supabase
-        .from('notification_settings')
-        .select('*')
-        .eq('user_address', address)
-        .single();
-
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error loading settings:', error);
-        return;
-      }
-
-      if (data) {
-        setPhoneNumber(data.phone_number || '');
-        setEmail(data.email || '');
-        setSettings({
-          pushEnabled: data.push_enabled,
-          smsEnabled: data.sms_enabled,
-          emailEnabled: data.email_enabled,
-          medicationReminders: data.medication_reminders,
-          appointmentReminders: data.appointment_reminders,
-          healthInsights: data.health_insights,
-          vitalSignAlerts: data.vital_sign_alerts,
+      try {
+        const { data, error } = await supabase.functions.invoke('notification-settings', {
+          body: {
+            action: 'get',
+            userAddress: address,
+          },
         });
+
+        if (error) {
+          console.error('Error loading notification settings via function:', error);
+          return;
+        }
+
+        const settingsData = (data as any)?.settings;
+        if (settingsData) {
+          setPhoneNumber(settingsData.phone_number || '');
+          setEmail(settingsData.email || '');
+          setSettings({
+            pushEnabled: !!settingsData.push_enabled,
+            smsEnabled: !!settingsData.sms_enabled,
+            emailEnabled: !!settingsData.email_enabled,
+            medicationReminders: settingsData.medication_reminders ?? true,
+            appointmentReminders: settingsData.appointment_reminders ?? true,
+            healthInsights: settingsData.health_insights ?? true,
+            vitalSignAlerts: settingsData.vital_sign_alerts ?? true,
+          });
+        }
+      } catch (err) {
+        console.error('Error calling notification-settings function:', err);
       }
     };
 
@@ -69,24 +75,19 @@ export default function NotificationsPage() {
 
     setIsLoading(true);
     try {
-      const { error } = await supabase
-        .from('notification_settings')
-        .upsert({
-          user_address: address,
-          phone_number: phoneNumber,
-          email: email,
-          push_enabled: settings.pushEnabled,
-          sms_enabled: settings.smsEnabled,
-          email_enabled: settings.emailEnabled,
-          medication_reminders: settings.medicationReminders,
-          appointment_reminders: settings.appointmentReminders,
-          health_insights: settings.healthInsights,
-          vital_sign_alerts: settings.vitalSignAlerts,
-        }, {
-          onConflict: 'user_address'
-        });
+      const { data, error } = await supabase.functions.invoke('notification-settings', {
+        body: {
+          action: 'save',
+          userAddress: address,
+          phoneNumber,
+          email,
+          settings,
+        },
+      });
 
-      if (error) throw error;
+      if (error || (data as any)?.error) {
+        throw new Error((error as any)?.message || (data as any)?.error || 'Unknown error');
+      }
 
       toast.success('Notification settings saved successfully!');
     } catch (error) {
