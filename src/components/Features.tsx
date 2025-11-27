@@ -5,51 +5,51 @@ import { Card } from '@/components/ui/card';
 const features = [
   {
     icon: Brain,
-    title: 'AI Health Assistant',
-    description: 'Conversational AI that understands your health needs and provides personalized guidance 24/7',
+    title: 'Real-time Tracking',
+    description: 'Monitor your health metrics in real-time with AI-powered insights',
     color: 'from-primary to-primary/70',
-  },
-  {
-    icon: FileText,
-    title: 'Test Result Interpretation',
-    description: 'AI-powered analysis of medical tests with clear, easy-to-understand explanations',
-    color: 'from-secondary to-secondary/70',
   },
   {
     icon: Pill,
     title: 'Medication Tracking',
     description: 'Never miss a dose with intelligent reminders and adherence monitoring',
-    color: 'from-accent to-accent/70',
-  },
-  {
-    icon: LineChart,
-    title: 'Health Analytics',
-    description: 'Visualize your health trends and progress over time with detailed insights',
-    color: 'from-medical-purple to-medical-purple/70',
-  },
-  {
-    icon: Bell,
-    title: 'Smart Reminders',
-    description: 'SMS and push notifications to keep you on track with your treatment plan',
     color: 'from-primary to-secondary',
   },
   {
     icon: Shield,
     title: 'Blockchain Security',
     description: 'Your health data is encrypted and secured on Camp Network blockchain',
-    color: 'from-secondary to-accent',
+    color: 'from-secondary to-primary',
   },
   {
     icon: MessageSquare,
     title: 'Voice Interactions',
     description: 'Communicate with MEDPRO using voice for hands-free health management',
-    color: 'from-accent to-primary',
+    color: 'from-primary to-primary/80',
+  },
+  {
+    icon: FileText,
+    title: 'Test Result Interpretation',
+    description: 'AI-powered analysis of medical tests with clear explanations',
+    color: 'from-secondary to-secondary/70',
+  },
+  {
+    icon: LineChart,
+    title: 'Health Analytics',
+    description: 'Visualize your health trends and progress over time',
+    color: 'from-secondary to-primary',
+  },
+  {
+    icon: Bell,
+    title: 'Smart Reminders',
+    description: 'SMS and push notifications to keep you on track',
+    color: 'from-primary to-secondary',
   },
   {
     icon: Clock,
     title: 'Activity History',
-    description: 'Complete timeline of your health activities, medications, and checkups',
-    color: 'from-medical-purple to-primary',
+    description: 'Complete timeline of your health activities and checkups',
+    color: 'from-primary to-primary/70',
   },
 ];
 

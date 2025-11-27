@@ -133,20 +133,21 @@ export function SignupFlow() {
 
               <div className="space-y-3">
                 <div>
-                  <Label>Date of Birth</Label>
+                  <Label className="text-muted-foreground font-normal">Date of Birth</Label>
                   <Input
                     type="date"
                     value={profileData.dateOfBirth}
                     onChange={(e) => updateField('dateOfBirth', e.target.value)}
+                    placeholder="/mm/yyyy"
                   />
                 </div>
 
                 <div>
-                  <Label>Gender</Label>
+                  <Label className="text-muted-foreground font-normal">Gender</Label>
                   <select
                     value={profileData.gender}
                     onChange={(e) => updateField('gender', e.target.value)}
-                    className="w-full h-10 px-3 rounded-md border border-input bg-background"
+                    className="w-full h-10 px-3 rounded-md border border-input bg-background text-muted-foreground"
                   >
                     <option value="">Select gender</option>
                     <option value="male">Male</option>
@@ -156,7 +157,7 @@ export function SignupFlow() {
                 </div>
 
                 <div>
-                  <Label>Height (cm)</Label>
+                  <Label className="text-muted-foreground font-normal">Height (cm)</Label>
                   <Input
                     type="number"
                     placeholder="170"
@@ -166,7 +167,7 @@ export function SignupFlow() {
                 </div>
 
                 <div>
-                  <Label>Current Weight (kg)</Label>
+                  <Label className="text-muted-foreground font-normal">Current Weight (kg)</Label>
                   <Input
                     type="number"
                     placeholder="70"
@@ -176,7 +177,7 @@ export function SignupFlow() {
                 </div>
 
                 <div>
-                  <Label>Common Sickness</Label>
+                  <Label className="text-muted-foreground font-normal">Common Sickness</Label>
                   <Input
                     placeholder="e.g., Allergies, Asthma"
                     value={profileData.commonSickness}
@@ -185,11 +186,11 @@ export function SignupFlow() {
                 </div>
 
                 <div>
-                  <Label>Blood Group</Label>
+                  <Label className="text-muted-foreground font-normal">Blood Group</Label>
                   <select
                     value={profileData.bloodType}
                     onChange={(e) => updateField('bloodType', e.target.value)}
-                    className="w-full h-10 px-3 rounded-md border border-input bg-background"
+                    className="w-full h-10 px-3 rounded-md border border-input bg-background text-muted-foreground"
                   >
                     <option value="">Select blood type</option>
                     <option value="A+">A+</option>
@@ -304,7 +305,7 @@ export function SignupFlow() {
 
           <Button
             onClick={handleNext}
-            className="w-full bg-medical-cyan hover:bg-medical-cyan/90 text-white h-12 text-base"
+            className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-base rounded-full"
           >
             {step === 3 ? 'Complete' : 'Next'}
           </Button>

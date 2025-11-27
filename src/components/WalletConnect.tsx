@@ -151,49 +151,65 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <DialogTitle className="text-2xl font-bold text-center">
               Connect Your Wallet
             </DialogTitle>
-            <DialogDescription>
-              Choose your preferred wallet to connect to MEDPRO on Camp Network
+            <DialogDescription className="text-center">
+              Choose your preferred wallet to connect
             </DialogDescription>
           </DialogHeader>
           
           <div className="space-y-3 mt-4">
-            {connectors.map((connector, index) => (
-              <motion.div
-                key={connector.uid}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Button
-                  onClick={() => handleConnect(connector)}
-                  disabled={isPending}
-                  variant="outline"
-                  className="w-full justify-between h-auto py-4 hover:border-primary hover:shadow-md transition-all"
+            {connectors.map((connector, index) => {
+              // Determine styling based on connector name
+              const getConnectorStyle = (name: string) => {
+                const lowerName = name.toLowerCase();
+                if (lowerName.includes('metamask')) {
+                  return 'from-orange-500 to-orange-600';
+                } else if (lowerName.includes('okx')) {
+                  return 'from-slate-800 to-slate-900';
+                } else if (lowerName.includes('injected') || lowerName.includes('browser')) {
+                  return 'from-blue-500 to-purple-600';
+                } else {
+                  return 'from-primary to-secondary';
+                }
+              };
+
+              return (
+                <motion.div
+                  key={connector.uid}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                      <Wallet className="w-4 h-4 text-white" />
+                  <Button
+                    onClick={() => handleConnect(connector)}
+                    disabled={isPending}
+                    variant="outline"
+                    className="w-full justify-between h-auto py-4 hover:border-primary hover:shadow-md transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${getConnectorStyle(connector.name)} flex items-center justify-center`}>
+                        <Wallet className="w-5 h-5 text-white" />
+                      </div>
+                      <span className="font-medium text-base">{connector.name}</span>
                     </div>
-                    <span className="font-medium">{connector.name}</span>
-                  </div>
-                  <ExternalLink className="w-4 h-4 text-muted-foreground" />
-                </Button>
-              </motion.div>
-            ))}
+                    <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                  </Button>
+                </motion.div>
+              );
+            })}
           </div>
 
           <div className="mt-6 space-y-3">
             <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg">
               <p className="text-xs text-muted-foreground text-center">
-                📱 <strong>Mobile users:</strong> Open this page in your wallet's browser (MetaMask, Trust Wallet, Binance, etc.) for best experience
+                📱 <strong>Mobile users:</strong> Open this page in your wallet's browser (MetaMask, Trust Wallet, etc.)
               </p>
             </div>
             <div className="p-4 bg-muted rounded-lg">
               <p className="text-xs text-muted-foreground text-center">
-                By connecting, you agree to MEDPRO's Terms of Service and Privacy Policy
+                By connecting, you agree to MEDPRO's Terms of Service
               </p>
             </div>
           </div>
