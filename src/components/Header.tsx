@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
-import medproLogo from '@/assets/medpro-logo-clean.jpg';
+import medproLogo from '@/assets/medpro-logo.png';
 
 interface HeaderProps {
   autoOpenWallet?: boolean;

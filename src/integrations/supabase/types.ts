@@ -214,6 +214,54 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_settings: {
+        Row: {
+          appointment_reminders: boolean | null
+          created_at: string
+          email: string | null
+          email_enabled: boolean | null
+          health_insights: boolean | null
+          id: string
+          medication_reminders: boolean | null
+          phone_number: string | null
+          push_enabled: boolean | null
+          sms_enabled: boolean | null
+          updated_at: string
+          user_address: string
+          vital_sign_alerts: boolean | null
+        }
+        Insert: {
+          appointment_reminders?: boolean | null
+          created_at?: string
+          email?: string | null
+          email_enabled?: boolean | null
+          health_insights?: boolean | null
+          id?: string
+          medication_reminders?: boolean | null
+          phone_number?: string | null
+          push_enabled?: boolean | null
+          sms_enabled?: boolean | null
+          updated_at?: string
+          user_address: string
+          vital_sign_alerts?: boolean | null
+        }
+        Update: {
+          appointment_reminders?: boolean | null
+          created_at?: string
+          email?: string | null
+          email_enabled?: boolean | null
+          health_insights?: boolean | null
+          id?: string
+          medication_reminders?: boolean | null
+          phone_number?: string | null
+          push_enabled?: boolean | null
+          sms_enabled?: boolean | null
+          updated_at?: string
+          user_address?: string
+          vital_sign_alerts?: boolean | null
+        }
+        Relationships: []
+      }
       premium_subscriptions: {
         Row: {
           active: boolean
