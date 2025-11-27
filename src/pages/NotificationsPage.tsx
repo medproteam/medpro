@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAccount } from 'wagmi';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,10 +10,13 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import { Bell, Smartphone, MessageSquare, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function NotificationsPage() {
+  const { address } = useAccount();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [settings, setSettings] = useState({
     pushEnabled: false,
     smsEnabled: false,
@@ -23,9 +27,74 @@ export default function NotificationsPage() {
     vitalSignAlerts: true,
   });
 
-  const handleSaveSettings = () => {
-    // In a real app, this would save to backend/database
-    toast.success('Notification settings saved successfully!');
+  // Load settings when component mounts
+  useEffect(() => {
+    const loadSettings = async () => {
+      if (!address) return;
+
+      const { data, error } = await supabase
+        .from('notification_settings')
+        .select('*')
+        .eq('user_address', address)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error loading settings:', error);
+        return;
+      }
+
+      if (data) {
+        setPhoneNumber(data.phone_number || '');
+        setEmail(data.email || '');
+        setSettings({
+          pushEnabled: data.push_enabled,
+          smsEnabled: data.sms_enabled,
+          emailEnabled: data.email_enabled,
+          medicationReminders: data.medication_reminders,
+          appointmentReminders: data.appointment_reminders,
+          healthInsights: data.health_insights,
+          vitalSignAlerts: data.vital_sign_alerts,
+        });
+      }
+    };
+
+    loadSettings();
+  }, [address]);
+
+  const handleSaveSettings = async () => {
+    if (!address) {
+      toast.error('Please connect your wallet first');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await supabase
+        .from('notification_settings')
+        .upsert({
+          user_address: address,
+          phone_number: phoneNumber,
+          email: email,
+          push_enabled: settings.pushEnabled,
+          sms_enabled: settings.smsEnabled,
+          email_enabled: settings.emailEnabled,
+          medication_reminders: settings.medicationReminders,
+          appointment_reminders: settings.appointmentReminders,
+          health_insights: settings.healthInsights,
+          vital_sign_alerts: settings.vitalSignAlerts,
+        }, {
+          onConflict: 'user_address'
+        });
+
+      if (error) throw error;
+
+      toast.success('Notification settings saved successfully!');
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      toast.error('Failed to save settings. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const requestPushPermission = async () => {
@@ -253,9 +322,10 @@ export default function NotificationsPage() {
 
           <Button
             onClick={handleSaveSettings}
+            disabled={isLoading}
             className="w-full bg-gradient-to-r from-primary to-secondary text-white h-12"
           >
-            Save Settings
+            {isLoading ? 'Saving...' : 'Save Settings'}
           </Button>
         </motion.div>
       </main>
