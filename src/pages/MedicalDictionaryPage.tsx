@@ -185,10 +185,10 @@ export default function MedicalDictionaryPage() {
 
   useEffect(() => {
     if (!isConnected) {
-      toast.error('Please connect your wallet first');
-      navigate('/');
+      // Don't navigate away, just show a warning
+      // User can still see the dictionary but might have limited access
     }
-  }, [isConnected, navigate]);
+  }, [isConnected]);
 
   useEffect(() => {
     if (hasAccess && !hasTracked && !isLoading) {
