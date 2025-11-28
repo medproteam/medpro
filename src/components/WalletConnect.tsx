@@ -28,7 +28,7 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
       setShowDialog(true);
     }
   }, [autoOpenOnMount, isConnected]);
-  // Auto-switch to Camp Network if connected to wrong chain
+  
   useEffect(() => {
     if (isConnected && chain?.id !== campTestnet.id && switchChain) {
       handleAddNetwork();
@@ -43,7 +43,6 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
       await switchChain({ chainId: campTestnet.id });
       toast.success('Switched to Camp Network Testnet!');
     } catch (error: any) {
-      // If network doesn't exist in wallet, add it manually
       if (error.code === 4902 || error.message?.includes('Unrecognized chain')) {
         try {
           if (typeof window !== 'undefined' && window.ethereum) {
@@ -82,13 +81,11 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
     } catch (error: any) {
       console.error('Connection error:', error);
       
-      // If user rejected, show friendly message
       if (error?.message?.includes('User rejected') || error?.message?.includes('rejected')) {
         toast.error('Connection cancelled');
         return;
       }
       
-      // If no wallet found, guide user based on device
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       if (error?.message?.includes('No provider') || error?.message?.includes('ConnectorNotFound')) {
         if (isMobile) {
@@ -164,7 +161,6 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
           
           <div className="space-y-3 mt-4">
             {connectors.map((connector, index) => {
-              // Determine styling and icon based on connector name
               const getConnectorStyle = (name: string) => {
                 const lowerName = name.toLowerCase();
 
@@ -252,7 +248,6 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
   );
 }
 
-// Extend window type for ethereum provider
 declare global {
   interface Window {
     ethereum?: any;
