@@ -169,31 +169,31 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
                 const lowerName = name.toLowerCase();
 
                 if (lowerName.includes('metamask')) {
-                  return { gradient: 'from-orange-500 to-orange-600', logo: metamaskLogo, icon: null };
+                  return { gradient: '', logo: metamaskLogo, icon: null, hasBackground: true };
                 }
                 if (lowerName.includes('phantom')) {
-                  return { gradient: 'from-violet-500 to-purple-600', logo: phantomLogo, icon: null };
+                  return { gradient: '', logo: phantomLogo, icon: null, hasBackground: true };
                 }
                 if (lowerName.includes('zerion') || lowerName.includes('serion')) {
-                  return { gradient: 'from-blue-500 to-indigo-500', logo: null, icon: 'Z' };
+                  return { gradient: 'from-blue-500 to-indigo-500', logo: null, icon: 'Z', hasBackground: false };
                 }
                 if (lowerName.includes('okx')) {
-                  return { gradient: 'from-lime-500 to-lime-600', logo: okxLogo, icon: null };
+                  return { gradient: '', logo: okxLogo, icon: null, hasBackground: true };
                 }
                 if (lowerName.includes('unisat')) {
-                  return { gradient: 'from-amber-500 to-yellow-500', logo: null, icon: '₿' };
+                  return { gradient: 'from-amber-500 to-yellow-500', logo: null, icon: '₿', hasBackground: false };
                 }
                 if (lowerName.includes('coinbase')) {
-                  return { gradient: 'from-blue-600 to-blue-700', logo: null, icon: 'C' };
+                  return { gradient: 'from-blue-600 to-blue-700', logo: null, icon: 'C', hasBackground: false };
                 }
                 if (lowerName.includes('trust')) {
-                  return { gradient: 'from-blue-500 to-cyan-500', logo: null, icon: '🛡️' };
+                  return { gradient: 'from-blue-500 to-cyan-500', logo: null, icon: '🛡️', hasBackground: false };
                 }
                 if (lowerName.includes('injected') || lowerName.includes('browser')) {
-                  return { gradient: 'from-blue-500 to-purple-600', logo: null, icon: null };
+                  return { gradient: 'from-blue-500 to-purple-600', logo: null, icon: null, hasBackground: false };
                 }
 
-                return { gradient: 'from-primary to-secondary', logo: null, icon: null };
+                return { gradient: 'from-primary to-secondary', logo: null, icon: null, hasBackground: false };
               };
 
               const style = getConnectorStyle(connector.name);
@@ -212,9 +212,9 @@ export function WalletConnect({ autoOpenOnMount }: WalletConnectProps) {
                     className="w-full justify-between h-auto py-4 hover:border-primary hover:shadow-md transition-all"
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${style.gradient} flex items-center justify-center overflow-hidden`}>
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden ${style.hasBackground ? 'bg-transparent' : `bg-gradient-to-br ${style.gradient}`}`}>
                         {style.logo ? (
-                          <img src={style.logo} alt={connector.name} className="w-6 h-6 object-contain" />
+                          <img src={style.logo} alt={connector.name} className="w-full h-full object-cover" />
                         ) : style.icon ? (
                           <span className="text-xl">{style.icon}</span>
                         ) : (
