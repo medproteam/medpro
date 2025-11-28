@@ -91,7 +91,13 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 - **Storage**: Encrypted health data storage
 
 ### AI & ML
-- **Models used**: `google/gemini-2.5-flash` (Lovable AI gateway for chat & analysis), `gpt-5-mini-2025-08-07` (OpenAI chat), `tts-1` (OpenAI text-to-speech), `whisper-1` (OpenAI speech-to-text)
+- **AI Models**: 
+  - `google/gemini-2.5-flash` - Health chat & symptom analysis
+  - `gpt-5-mini-2025-08-07` - Advanced conversational AI
+  - `tts-1` - Text-to-speech for voice assistant
+  - `whisper-1` - Speech-to-text for voice input
+- **AI Gateway**: Custom AI gateway for healthcare-specific responses
+- **Natural Language Processing**: Context-aware health conversations
 
 ### Edge Functions
 - `ai-health-chat` - AI-powered health conversation
@@ -104,23 +110,83 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- A Web3 wallet (MetaMask, Trust Wallet, etc.)
+- Node.js 18+ or Bun runtime
+- A Web3 wallet (MetaMask, OKX Wallet, Phantom, Trust Wallet, etc.)
 - CAMP tokens from [Camp Network Faucet](https://faucet.campnetwork.xyz/)
 
 ### Installation
 
+1. **Clone the repository**
 ```bash
-npm install
-npm run dev
+git clone https://github.com/your-username/medpro.git
+cd medpro
 ```
 
-### Environment Variables
-Create a `.env` file with:
+2. **Install dependencies**
+```bash
+npm install
+# or
+bun install
 ```
+
+3. **Set up environment variables**
+Create a `.env` file in the root directory:
+```env
 VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_key
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
 VITE_SUPABASE_PROJECT_ID=your_project_id
+```
+
+4. **Run the development server**
+```bash
+npm run dev
+# or
+bun dev
+```
+
+5. **Open your browser**
+Navigate to `http://localhost:5173`
+
+### Smart Contract Deployment (Optional)
+
+If you want to deploy your own contracts:
+
+```bash
+cd contracts
+npm install
+npx hardhat run scripts/deploy.js --network campTestnet
+```
+
+See `contracts/DEPLOYMENT.md` for detailed deployment instructions.
+
+### Database Setup
+
+The project uses PostgreSQL with the following tables:
+- `user_profiles` - User health profiles
+- `medications` - Medication tracking
+- `medication_logs` - Medication adherence logs
+- `vital_signs` - Health vitals tracking
+- `health_records` - Medical records
+- `premium_subscriptions` - Subscription management
+- `bonanza_rewards` - Reward system
+- `notification_settings` - User preferences
+- `activity_logs` - User activity tracking
+- `feature_usage` - Feature usage analytics
+
+Database migrations are in `supabase/migrations/`.
+
+### Edge Functions
+
+Deploy edge functions for backend logic:
+
+```bash
+npx supabase functions deploy ai-health-chat
+npx supabase functions deploy medication-reminder
+npx supabase functions deploy health-analytics
+npx supabase functions deploy voice-to-text
+npx supabase functions deploy text-to-speech
+npx supabase functions deploy create-bonanza-rewards
+npx supabase functions deploy notification-settings
 ```
 
 ## 🌐 Camp Network Configuration
@@ -271,10 +337,45 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 🔗 Links
 
-- **Live Demo**: [Your deployed URL]
-- **GitHub**: [Your repository]
-- **Contract Explorer**: [View on BlockScout](https://basecamp.cloud.blockscout.com/address/0x37a487D193F7717206762Ec0B3c247A2C8C64b15)
+- **Live Demo**: [https://medpro-health.app](https://your-live-demo-url.com)
+- **GitHub Repository**: [https://github.com/your-username/medpro](https://github.com/your-username/medpro)
+- **Smart Contract**: [View on BlockScout](https://basecamp.cloud.blockscout.com/address/0x37a487D193F7717206762Ec0B3c247A2C8C64b15)
+- **Video Demo**: [YouTube Demo Link]
+
+## 🎥 Demo Video
+
+[Include your demo video walkthrough here showing key features]
+
+## 📸 Screenshots
+
+### Dashboard
+![Dashboard](./screenshots/dashboard.png)
+
+### AI Health Assistant
+![AI Chat](./screenshots/ai-chat.png)
+
+### Medication Tracker
+![Medication Tracking](./screenshots/medication.png)
+
+### Premium Features
+![Premium](./screenshots/premium.png)
+
+## 🏆 Team
+
+**Team Name**: [Your Team Name]
+
+**Team Members**:
+- [Name 1] - [Role] - [GitHub/LinkedIn]
+- [Name 2] - [Role] - [GitHub/LinkedIn]
+- [Name 3] - [Role] - [GitHub/LinkedIn]
+
+## 📧 Contact
+
+For questions or support, reach out to:
+- Email: [your-email@example.com]
+- Twitter: [@your-handle]
+- Discord: [Your Discord]
 
 ---
 
-Built with ❤️ on Camp Network
+Built with ❤️ on Camp Network | TechyJaunt X Camp Network Buildathon 2024
