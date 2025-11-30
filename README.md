@@ -110,42 +110,8 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ or Bun runtime
 - A Web3 wallet (MetaMask, OKX Wallet, Phantom, Trust Wallet, etc.)
 - CAMP tokens from [Camp Network Faucet](https://faucet.campnetwork.xyz/)
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/your-username/medpro.git
-cd medpro
-```
-
-2. **Install dependencies**
-```bash
-npm install
-# or
-bun install
-```
-
-3. **Set up environment variables**
-Create a `.env` file in the root directory:
-```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
-VITE_SUPABASE_PROJECT_ID=your_project_id
-```
-
-4. **Run the development server**
-```bash
-npm run dev
-# or
-bun dev
-```
-
-5. **Open your browser**
-Navigate to `http://localhost:5173`
 
 ### Smart Contract Deployment (Optional)
 
@@ -344,7 +310,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 🎥 Demo Video
 
-[Include your demo video walkthrough here showing key features]
+
 
 ## 📸 Screenshots
 
@@ -378,4 +344,4 @@ For questions or support, reach out to:
 
 ---
 
-Built with ❤️ on Camp Network | TechyJaunt X Camp Network Buildathon 2024
+Built with ❤️ on Camp Network | TechyJaunt X Camp Network Buildathon 2025
