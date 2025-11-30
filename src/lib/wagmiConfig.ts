@@ -11,8 +11,8 @@ export const wagmiConfig = createConfig({
       metadata: {
         name: 'MEDPRO',
         description: 'Decentralized Health Management Platform',
-        url: 'https://camedpro.vercel.app',
-        icons: ['https://medpro.app/medpro-logo.png']
+        url: typeof window !== 'undefined' ? window.location.origin : 'https://camedpro.vercel.app',
+        icons: [typeof window !== 'undefined' ? `${window.location.origin}/medpro-logo.png` : 'https://camedpro.vercel.app/medpro-logo.png']
       },
       showQrModal: true,
     }),
