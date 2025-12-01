@@ -290,14 +290,14 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📸 Screenshots
 
-### Dashboard
-![Dashboard](./screenshots/dashboard.png)
+### Health Terms Search
+![health_terms](./screenshots/health_terms.png)
 
-### AI Health Assistant
-![AI Chat](./screenshots/ai-chat.png)
+### Vitals Tracking 
+![vitals](./screenshots/vitals.png)
 
-### Medication Tracker
-![Medication Tracking](./screenshots/medication.png)
+### Push Notifications 
+![alerts](./screenshots/alerts.png)
 
 ### Premium Features
 ![Premium](./screenshots/premium.png)
