@@ -299,12 +299,9 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ### Push Notifications 
 ![alerts](./screenshots/alerts.png)
 
-### Premium Features
-![Premium](./screenshots/premium.png)
-
 ## 🏆 Team
 
-**Team Name**: [Team Medpro]
+**Team Name**: Team Medpro
 
 **Team Members**:
 1. Patience Inakpo Joseph
