@@ -113,18 +113,6 @@ MEDPRO is an AI-powered healthcare companion that revolutionizes patient care by
 - A Web3 wallet (MetaMask, OKX Wallet, Phantom, Trust Wallet, etc.)
 - CAMP tokens from [Camp Network Faucet](https://faucet.campnetwork.xyz/)
 
-### Smart Contract Deployment (Optional)
-
-If you want to deploy your own contracts:
-
-```bash
-cd contracts
-npm install
-npx hardhat run scripts/deploy.js --network campTestnet
-```
-
-See `contracts/DEPLOYMENT.md` for detailed deployment instructions.
-
 ### Database Setup
 
 The project uses PostgreSQL with the following tables:
@@ -141,19 +129,7 @@ The project uses PostgreSQL with the following tables:
 
 Database migrations are in `supabase/migrations/`.
 
-### Edge Functions
 
-Deploy edge functions for backend logic:
-
-```bash
-npx supabase functions deploy ai-health-chat
-npx supabase functions deploy medication-reminder
-npx supabase functions deploy health-analytics
-npx supabase functions deploy voice-to-text
-npx supabase functions deploy text-to-speech
-npx supabase functions deploy create-bonanza-rewards
-npx supabase functions deploy notification-settings
-```
 
 ## 🌐 Camp Network Configuration
 
@@ -328,19 +304,20 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 🏆 Team
 
-**Team Name**: [Your Team Name]
+**Team Name**: [Team Medpro]
 
 **Team Members**:
-- [Name 1] - [Role] - [GitHub/LinkedIn]
-- [Name 2] - [Role] - [GitHub/LinkedIn]
-- [Name 3] - [Role] - [GitHub/LinkedIn]
+1. Patience Inakpo Joseph
+2. Shienkumaaondo Elizabeth Ugeda
+3. Anuoluwapo Adepoju
+4. Kehinde Joshua Odewole
+5. Prosper Okah
 
 ## 📧 Contact
 
 For questions or support, reach out to:
-- Email: [your-email@example.com]
+- Email: [infomedpro25@gmail.com]
 - Twitter: [@your-handle]
-- Discord: [Your Discord]
 
 ---
 
