@@ -1,4 +1,4 @@
-I'm# MEDPRO - AI-Powered Medical Adherence Assistant
+# MEDPRO - AI-Powered Medical Adherence Assistant
 
 Built on **Camp Network** blockchain for the TechyJaunt X Camp Network Buildathon.
 
