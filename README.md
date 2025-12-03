@@ -1,4 +1,4 @@
-# MEDPRO - AI-Powered Medical Adherence Assistant
+I'm# MEDPRO - AI-Powered Medical Adherence Assistant
 
 Built on **Camp Network** blockchain for the TechyJaunt X Camp Network Buildathon.
 
@@ -314,7 +314,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 For questions or support, reach out to:
 - Email: [infomedpro25@gmail.com]
-- Twitter: [@your-handle]
+- Twitter: [@infomedpro25]
 
 ---
 
