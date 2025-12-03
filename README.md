@@ -282,7 +282,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - **Live Demo**: [https://camedpro.vercel.app/](https://camedpro.vercel.app/)
 - **GitHub Repository**: [https://github.com/medproteam/medpro](https://github.com/medproteam/medpro)
 - **Smart Contract**: [View on BlockScout](https://basecamp.cloud.blockscout.com/address/0x37a487D193F7717206762Ec0B3c247A2C8C64b15)
-- **Video Demo**: [YouTube Demo Link]
+- **Video Demo**: [https://youtu.be/JbzVPf13ahw?si=Js-xDMhKgrHMlU2W]
 
 ## 🎥 Demo Video
 
